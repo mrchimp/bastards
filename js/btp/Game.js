@@ -11,6 +11,7 @@ function Game(options) {
   this.ship_tmpl = '';
   this.paused = false;
   this.bar_width = 40;
+  this.clock = null;
   if (options) {
     $.extend(this, options);
   }
@@ -150,6 +151,33 @@ Game.prototype.toString = function () {
 };
 
 Game.prototype.play = function () {
+  this.paused = false;
+  this.clock = window.setInterval(function() { game.tick() }, 1500);
+};
+
+Game.prototype.pause = function () {
+  console.log('clicked');
+  if (this.paused) {
+    this.paused = false;
+    window.clearInterval(this.clock);
+  } else {
+    this.paused = true;
+    this.play();
+  }
+};
+
+Game.prototype.tick = function () {
+  //console.log('tick');
+  var aggressor = game.enemies[Rand.getInt(0,2)];
+  var rand_ship = Rand.getInt(0,3);
+  
+  if (rand_ship == 3) {
+    var target = game.my_ship;
+  } else {
+    var target = this.enemies[rand_ship];
+  }
+  target.hit(aggressor, Rand.getInt(0,aggressor.weapons.length - 1))
+  
   
 };
 

@@ -28,7 +28,8 @@ function Ship(options) {
   this.sections = [];
   this.is_dead = false,
   this.weapons = [
-    new Weapon(game.available_weapons[0])
+    new Weapon(game.available_weapons[0]),
+    new Weapon(game.available_weapons[1])
   ];
   this.shipTypes = {
     'default': {
@@ -109,9 +110,29 @@ Ship.prototype.getSection = function(type) {
 
 Ship.prototype.hit = function (aggressor, weapon_index) {
   
-  game.message('<strong>' + aggressor + '</strong> fires at ' + aggressor.weapons[weapon_index] + ' at <strong>' + this + '</strong>!');
+  game.message('<strong>' + aggressor + '</strong> fires a ' + aggressor.weapons[weapon_index] + ' at <strong>' + this + '</strong>!');
   
   var weapon = aggressor.weapons[weapon_index];
+  
+  if (weapon.ammo_type == 'laser') {
+    if (aggressor.power <= 1) {
+      return false;
+    } else {
+      aggressor.power -= weapon.power_used;
+    }
+  } else if (weapon.ammo_type == 'missile') {
+    if (aggressor.missiles <= 1) {
+      return false;
+    } else {
+      aggressor.missiles -= weapon.missiles_used;
+    }
+  }
+
+  if (weapon.ammo_type == 'missile' && aggressor.missiles < 1) {
+  
+  }
+  
+
   weapon.ammo -= weapon.rounds_per_shot;
   
   // Do some evade stuff
