@@ -1,0 +1,227 @@
+/**
+ * This is where we make it look good.
+ *
+ * Copyright 2013 Mr Chimp - deviouschimp.co.uk.
+ * Released with a foolish disregard to licenses.
+**/
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: #220;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 0;
+  background-color: #101000;
+}
+*::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #452500;
+}
+*::-webkit-scrollbar-thumb:active {
+  background-color: #b50;
+}
+
+*::selection {
+  color: #000;
+  background-color: #b50;
+}
+
+body {
+  margin: 0;
+  padding: 10px 5px;
+  font-family: 'courier new', monospace;
+  background-color: black;
+  color: #660;
+}
+h4 {
+  margin: 3px 0 0 0;
+}
+button {
+  float: left;
+  border-radius: 5px;
+  background-color: #000;
+  border: 1px solid #b50;
+  color: #e70;
+  padding: 4px;
+}
+
+a {
+  color: #090;
+}
+
+/* General Bits */
+.bar {
+  position: relative;
+  height: 10px;
+  border: 1px solid #030;
+  color: #090;
+  overflow: hidden;
+  font-size: 10px;
+  text-align: left;
+}
+.bar p {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+  line-height: 10px;
+  font-weight: bold;
+}
+.fill {
+  position: absolute;
+  height: 10px;
+  background: #090;
+  color: black;
+  overflow: hidden;
+  font-size: 10px;
+  line-height: 10px;
+  left: 0;
+  top: 0;
+  font-weight: bold;
+}
+.ship.enemy .bar {
+  color: #900;
+}
+
+h1#main_title { 
+  color: #e70;
+  font-size: 18px;
+  line-height: 26px;
+  padding: 0;
+  margin: 0;
+}
+
+div.section {
+  clear: both;
+}
+
+#controls {
+  clear: both;
+  margin-bottom: 35px;
+  width: 100%;
+}
+#space {
+  display: inline-block;
+  clear: both;
+  border: 1px solid #b50;
+  width: 320px;
+  height: 170px;
+  float: left;
+  padding: 0;
+  margin: 5px;
+}
+#messages {
+  display: inline-block;
+  float: left;
+  width: 310px;
+  height: 160px;
+  border: 1px solid #b50;
+  background-color: #000f00;
+  padding: 5px;
+  margin: 5px;
+  overflow-y: scroll;
+  font-size: 12px; 
+  line-height: 12px;
+	background: #000;
+  color: #e70;
+}
+#messages::selection {
+  color: #000;
+  background-color: #b50;
+}
+
+/* Ships tables */
+#friendlyShip,
+#enemyShips {
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+}
+#ships {
+  clear: both;
+  padding: 0;
+  margin: 0;
+}
+.ship {
+  float: left;
+  display: inline-block;
+  width: 144px;
+  text-align: center;
+  border: 1px solid #030;
+  padding: 5px;
+  margin: 5px;
+  background-color: #000f00;
+  color: #090;
+}
+.ship::selection,
+.ship *::selection {
+  color: #000;
+  background-color: #090;
+}
+.ship.enemy {
+  border: 1px solid #500;
+  background-color: #0f0000;
+  color: #d00;
+}
+.ship.enemy::selection,
+.ship.enemy *::selection {
+  color: #000;
+  background-color: #900;
+}
+  .ship.enemy div.bar {
+    border-color: #300;
+  }
+  .ship.enemy .fill {
+    background-color: #900;
+  }
+.ship dt {
+  float: left;
+  width: 75px;
+}
+.ship td {
+  padding-left: 10px;
+}
+
+table.stats{
+  border-spacing: 0;
+}
+table.stats td {
+  font-size: 11px;
+  text-align: left;
+  margin: 0;
+  padding: 0 2px;
+}
+table.stats td.title {
+  text-align: center;
+  color: #0f0;
+}
+.ship.enemy table.stats td.title {
+  color: #f00;
+}
+table.stats td.name {
+  width: 95px;
+}
+table.stats td.val {
+  width: 26px;
+  text-align: center;
+}
+table.stats td.gauge {
+  width: 40px;
+}
+
+/* message popup */
+#popover {
+  color: #090;
+  position: fixed;
+  padding-top: 25%;
+  text-align: center;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.7);
+  z-index: 100;
+  display: none;
+}
