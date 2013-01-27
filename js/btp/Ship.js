@@ -17,7 +17,7 @@ function Ship(options) {
   this.fuel = 10,
   this.max_fuel = 50,
   this.oxygen = 100,
-  this.hull = 100,
+  this.hull = 20,
   this.max_hull = 100,
   this.type = 'default',
   this.tmpl = '',
@@ -70,7 +70,8 @@ function Ship(options) {
     missiles: function () { return (this.missiles / this.max_missiles) * game.bar_width; },
     fuel: function () { return (this.fuel / this.max_fuel) * game.bar_width },
     warp: function () { return (this.warp / 100 * game.bar_width); },
-    bar_width: function () { return (game.bar_width) }
+    bar_width: function () { return (game.bar_width) },
+    is_dead: function () { return (this.is_dead ? 'dead' : '') }
   };
   
   $.extend(this, options);
@@ -110,6 +111,7 @@ Ship.prototype.getSection = function(type) {
 
 Ship.prototype.hit = function (aggressor, weapon_index) {
   
+  game.message('------------------------------------------');
   game.message('<strong>' + aggressor + '</strong> fires a ' + aggressor.weapons[weapon_index] + ' at <strong>' + this + '</strong>!');
   
   var weapon = aggressor.weapons[weapon_index];

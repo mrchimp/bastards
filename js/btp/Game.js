@@ -7,9 +7,10 @@
 function Game(options) {
   this.game = this;
   this.enemies = [];
+  this.tick_rate = 3000;
   this.my_ship = '';
   this.ship_tmpl = '';
-  this.paused = false;
+  this.paused = true;
   this.bar_width = 40;
   this.clock = null;
   if (options) {
@@ -83,6 +84,16 @@ Game.prototype.init = function () {
   var t = this;
 };
 
+Game.prototype.allDead = function () {
+  
+  for (x = 1; x < this.enemies.length; x++) {
+    if (this.enemies[x].is_dead) {
+      return true;
+    }
+  }
+  return false;
+}
+
 Game.prototype.message = function (msg) {
   $('#messages').append(msg+'<br>');
   $('#messages').scrollTop($('#messages')[0].scrollHeight);
@@ -150,35 +161,29 @@ Game.prototype.toString = function () {
   return 'Bastards Thieves and Pirates Game';
 };
 
-Game.prototype.play = function () {
-  this.paused = false;
-  this.clock = window.setInterval(function() { game.tick() }, 1500);
-};
-
-Game.prototype.pause = function () {
-  console.log('clicked');
+Game.prototype.playPause = function () {
   if (this.paused) {
     this.paused = false;
-    window.clearInterval(this.clock);
+    this.message('<br>### Resuming game... ###');
+    window.gameClock = window.setInterval(function() { game.tick() }, this.tick_rate);
   } else {
     this.paused = true;
-    this.play();
+    this.message('<br>### Game is paused! ###');
+    window.clearInterval(gameClock);
   }
 };
 
 Game.prototype.tick = function () {
   //console.log('tick');
-  var aggressor = game.enemies[Rand.getInt(0,2)];
+  var aggressor = this.enemies[Rand.getInt(0,2)];
   var rand_ship = Rand.getInt(0,3);
   
   if (rand_ship == 3) {
-    var target = game.my_ship;
+    var target = this.my_ship;
   } else {
     var target = this.enemies[rand_ship];
   }
   target.hit(aggressor, Rand.getInt(0,aggressor.weapons.length - 1))
-  
-  
 };
 
 Game.prototype.end = function (message) {

@@ -19,7 +19,7 @@
   <script type="text/javascript" src="js/btp/Weapon.js"></script>
   <script type="text/javascript" src="js/btp/Interface.js"></script>
   <script id="shipTmpl" class="template" type="text/tmpl">
-    <div class="ship {{affiliation}}">
+    <div class="ship {{affiliation}} {{display.is_dead}}">
       <table class="stats">
         <tr>
           <td colspan="3" class="title">
@@ -144,9 +144,9 @@
     <button id="fireLaser">Fire Laser</button>
     <button id="fireMissile">Fire Missile</button>
     <button id="goWarp" disabled>Warp</button>
-    <button id="hitShip">Test: Friendly Fire</button>
-    <button id="hitSomeone">Test: Hurt own crew</button>
-    <button id="goPause">Pause</button>
+    <!--<button id="hitShip">Test: Friendly Fire</button>
+    <button id="hitSomeone">Test: Hurt own crew</button>-->
+    <button id="goPause">Play / Pause</button>
   </div>
   <div class="sections" id="ships"></div>
   <div id="popover"></div>

@@ -132,27 +132,23 @@ $(document).ready(function () {
    * Add some controls
    */
   $('#hitShip').on('click', function() {
-    game.message('------------------------------------------');
     game.my_ship.hit(game.enemies[game.dice(game.enemies.length)], 0);
   });
   
   $('#hitSomeone').on('click', function () {
-    game.message('------------------------------------------');
     game.my_ship.crew[game.dice(game.my_ship.crew.length)].hit(30);
   });
   
   $('#fireLaser').on('click', function () {
-    game.message('------------------------------------------');
     game.enemies[game.dice(game.enemies.length)].hit(game.my_ship, 0);
   });
   
   $('#fireMissile').on('click', function () {
-    game.message('------------------------------------------');
     game.enemies[game.dice(game.enemies.length)].hit(game.my_ship, 1);
   });
   
   $('#goPause').on('click', function () {
-    game.pause();
+    game.playPause();
   });
   
   $('.goRefresh').on('click', function() {
@@ -163,5 +159,5 @@ $(document).ready(function () {
     $('#messages').scrollTop($('#messages')[0].scrollHeight);
   });
   
-  game.play();
+  //game.playPause();
 });

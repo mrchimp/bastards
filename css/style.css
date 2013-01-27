@@ -154,6 +154,9 @@ div.section {
   background-color: #000f00;
   color: #090;
 }
+.ship.dead {
+  opacity: 0.4;
+}
 .ship::selection,
 .ship *::selection {
   color: #000;
