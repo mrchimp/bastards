@@ -33,9 +33,10 @@
 body {
   margin: 0;
   padding: 10px 5px;
+  font-size: 12px;
   font-family: 'modesevenregular', monospace;
   background-color: black;
-  color: #660;
+  color: #e70;
 }
 h4 {
   margin: 3px 0 0 0;
@@ -50,7 +51,7 @@ button {
   font-family: 'modesevenregular', monospace;
   height: 24px;
 }
-button.pauseBtn.paused {
+.pauseBtn.paused {
   border-color: #600;
   color: #f00;
   box-shadow: 0 0 25px rgba(155,0,0,0.5);
@@ -148,6 +149,10 @@ div.section {
 #messages::selection {
   color: #000;
   background-color: #b50;
+}
+
+.ul {
+  text-decoration: underline;
 }
 
 /* Ships tables */

@@ -166,5 +166,27 @@ $(document).ready(function () {
     $('#messages').scrollTop($('#messages')[0].scrollHeight);
   });
   
+  /**
+   * Add keyboard shortcuts
+   */
+  $(document).keydown(function (e) {
+    var keyCode = e.keyCode || e.which;
+    console.log(keyCode);
+    switch (keyCode) {
+      case 80: // P - Pause
+        game.playPause();
+        break;
+      case 76: // L - Laser
+        game.enemies[game.dice(game.enemies.length)].hit(game.my_ship, 0);
+        break;
+      case 77: // M - Missile
+        game.enemies[game.dice(game.enemies.length)].hit(game.my_ship, 1);
+        break;
+      case 87: // W - Warp
+        game.my_ship.warp();
+        break;
+    }
+  });
+  
   //game.playPause();
 });
