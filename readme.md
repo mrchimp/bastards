@@ -10,6 +10,8 @@ Fire your lasers, shoot your photo torpedoes, send all power to the shields, kee
 
 Play a part-finished almost-game at: http://deviouschimp.co.uk/misc/btp/
 
+![Screenshot](http://deviouschimp.co.uk/misc/btp/screenshot.png)
+
 Your ship
 ---------
 
