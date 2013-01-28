@@ -2,11 +2,13 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" />
   <!--
     So you like pulling apart the pieces?
     Why not get involved at github.com/mrchimp
   -->
   <title>Bastards, Thieves and Pirates</title>
+  <link rel="stylesheet" type="text/css" href="css/modesevenregular/stylesheet.css" />
   <link rel="stylesheet" type="text/css" href="css/style.css" />
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script type="text/javascript" src="js/kinetic-v4.3.1.min.js"></script>
@@ -126,7 +128,7 @@
         </tr>
         <tr>
           <td class="gauge" colspan="2">
-            A:{{ammo}} H:{{hull_damage}} C:{{crew_damage}} S:{{section_damage}}
+            a{{ammo}} h{{hull_damage}} c{{crew_damage}} s{{section_damage}}
           </td>
         </tr>
         {{/weapons}}
@@ -146,7 +148,7 @@
     <button id="goWarp" disabled>Warp</button>
     <!--<button id="hitShip">Test: Friendly Fire</button>
     <button id="hitSomeone">Test: Hurt own crew</button>-->
-    <button id="goPause">Play / Pause</button>
+    <button class="pauseBtn paused">Play / Pause</button>
   </div>
   <div class="sections" id="ships"></div>
   <div id="popover"></div>

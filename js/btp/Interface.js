@@ -6,7 +6,10 @@
 **/
 $(document).ready(function () {
 
-  game = new Game();
+  game = new Game({
+    space_width: 310,
+    space_height: 250
+  });
   game.init();
   
   game.my_ship = new Ship({
@@ -14,30 +17,32 @@ $(document).ready(function () {
     type: 'default',
     tmpl: $('#shipTmpl').html(),
     affiliation: 'friend',
-    x: Rand.getInt(30,240),
-    y: Rand.getInt(30,140)
+    x: Rand.getInt(30,game.space_width-10),
+    y: Rand.getInt(30,game.space_height-10),
+    crew: [
+      new CrewMember({name:'Jase Barner'}),
+      new CrewMember({name:'Harry Raige'}),
+      new CrewMember({name:'Patry Gibbon'})
+    ]
   });
-  game.my_ship.addCrew({name:'Jase Barner'});
-  game.my_ship.addCrew({name:'Harry Raige'});
-  game.my_ship.addCrew({name:'Patry Gibbon'});
   
   game.addEnemy({
     name: 'Bastards',
     tmpl: $('#shipTmpl').html(),
-    x: Rand.getInt(30,240),
-    y: Rand.getInt(30,140)
+    x: Rand.getInt(30,game.space_width-10),
+    y: Rand.getInt(30,game.space_height-10)
   });
   game.addEnemy({
     name: 'Theives',
     tmpl: $('#shipTmpl').html(),
-    x: Rand.getInt(30,240),
-    y: Rand.getInt(30,140)
+    x: Rand.getInt(30,game.space_width-10),
+    y: Rand.getInt(30,game.space_height-10)
   });
   game.addEnemy({
     name: 'Pirates',
     tmpl: $('#shipTmpl').html(),
-    x: Rand.getInt(30,240),
-    y: Rand.getInt(30,140)
+    x: Rand.getInt(30,game.space_width-10),
+    y: Rand.getInt(30,game.space_height-10)
   });
   
   
@@ -49,7 +54,7 @@ $(document).ready(function () {
   var stage = new Kinetic.Stage({
     container: 'space',
     width: 320,
-    height: 170
+    height: 250
   });
   
   // Create some layers
@@ -61,8 +66,8 @@ $(document).ready(function () {
   for (var x = 0; x < 500; x++) {
     var randcol = Rand.getColor(0, 6, true);
     star = new Kinetic.Rect({
-      x: Rand.getInt(1, 320),
-      y: Rand.getInt(1, 170),
+      x: Rand.getInt(7, game.space_width - 7),
+      y: Rand.getInt(7, game.space_height - 7),
       width: 3,
       height: 3,
       fill: randcol,
@@ -77,8 +82,8 @@ $(document).ready(function () {
     layer_ships.add(new Kinetic.Rect({
       x: game.enemies[x].x,
       y: game.enemies[x].y,
-      width: 4,
-      height: 4,
+      width: 5,
+      height: 5,
       fill: '#f00',
       stroke: 'black',
       strokeWidth: 0
@@ -87,25 +92,27 @@ $(document).ready(function () {
       x: game.enemies[x].x + 10,
       y: game.enemies[x].y - 5,
       text: game.enemies[x].name,
-      fill: '#c00'
+      fill: '#c00',
+      fontFamily: 'arial'
     }));
   }
   
   // add the badger
-  var shape_badger = new Kinetic.Rect({
+  game.my_ship.shape = new Kinetic.Rect({
     x: game.my_ship.x,
     y: game.my_ship.y,
-    width: 4,
-    height: 4,
+    width: 5,
+    height: 5,
     fill: '#0c0',
     stroke: 'black',
     strokeWidth: 0
   });
-  var text_badger = new Kinetic.Text({
+  game.my_ship.label = new Kinetic.Text({
     x: game.my_ship.x + 10,
     y: game.my_ship.y - 5,
     text: game.my_ship.name,
-    fill: '#0c0'
+    fill: '#0c0',
+    fontFamily: 'arial'
   });
   
   // Set up message output
@@ -121,8 +128,8 @@ $(document).ready(function () {
   });
   layer_message.add(message);
   
-  layer_ships.add(shape_badger);
-  layer_ships.add(text_badger);
+  layer_ships.add(game.my_ship.shape);
+  layer_ships.add(game.my_ship.label);
   
   stage.add(layer_stars);
   stage.add(layer_ships);
@@ -147,7 +154,7 @@ $(document).ready(function () {
     game.enemies[game.dice(game.enemies.length)].hit(game.my_ship, 1);
   });
   
-  $('#goPause').on('click', function () {
+  $('.pauseBtn').on('click', function () {
     game.playPause();
   });
   

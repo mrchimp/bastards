@@ -111,10 +111,11 @@ Ship.prototype.getSection = function(type) {
 
 Ship.prototype.hit = function (aggressor, weapon_index) {
   
-  game.message('------------------------------------------');
-  game.message('<strong>' + aggressor + '</strong> fires a ' + aggressor.weapons[weapon_index] + ' at <strong>' + this + '</strong>!');
-  
   var weapon = aggressor.weapons[weapon_index];
+  
+  if (!weapon.fire()) {
+    return false;
+  }
   
   if (weapon.ammo_type == 'laser') {
     if (aggressor.power <= 1) {
@@ -130,6 +131,9 @@ Ship.prototype.hit = function (aggressor, weapon_index) {
     }
   }
 
+  game.message('------------------------------------------');
+  game.message('<strong>' + aggressor + '</strong> fires a ' + aggressor.weapons[weapon_index] + ' at <strong>' + this + '</strong>!');
+  
   if (weapon.ammo_type == 'missile' && aggressor.missiles < 1) {
   
   }
@@ -146,14 +150,12 @@ Ship.prototype.hit = function (aggressor, weapon_index) {
   if (weapon.blocked_by.shield) {
     var shield = this.getSection('shield');
     if (shield) {
-      game.message('Ship has a shield with '+ shield.hp +' hp');
-      if (weapon.ammo_type == 'laser') {
-        var shield_factor = (weapon.hull_damage / 100) * shield.hp;
-        game.message('Shield factor: '+shield_factor); 
-      }
+      //game.message('Ship has a shield with '+ shield.hp +' hp');
+      var shield_factor = (weapon.hull_damage / 100) * shield.hp;
+      game.message('Shield factor: '+shield_factor); 
     } else {
       var shield_factor = 0;
-      game.message('No shield.');
+      //game.message('No shield.');
     }
     this.hull -= weapon.hull_damage;
     if (this.hull < 0) { 
@@ -186,4 +188,14 @@ Ship.prototype.toHtml = function () {
 
 Ship.prototype.toString = function () {
   return this.name;
-}
+};
+
+Ship.prototype.warp = function () {
+  
+};
+
+Ship.prototype.tick = function () {
+  for (var x = 0; x < this.crew.length; x++) {
+    this.crew[x].tick();
+  }
+};

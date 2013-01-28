@@ -18,22 +18,22 @@ function Game(options) {
   }
   this.available_weapons = [
     {
-      name: 'Basic Laser',
+      name: 'Laser',
       hull_damage: 10,
       crew_damage: 30,
-      section_damage: 20,
+      section_damage: 40,
       ammo_type: 'laser',
-      rounds_per_shot: 1,
+      rounds_per_shot: 2,
       ammo: 30,
       blocked_by: {
         shield: true
       }
     },
     {
-      name: 'Missile Launcher',
+      name: 'Missile',
       hull_damage: 30,
       crew_damage: 10,
-      section_damage: 20,
+      section_damage: 40,
       ammo_type: 'missile',
       rounds_per_shot: 1,
       ammo: 3,
@@ -85,7 +85,6 @@ Game.prototype.init = function () {
 };
 
 Game.prototype.allDead = function () {
-  
   for (x = 1; x < this.enemies.length; x++) {
     if (this.enemies[x].is_dead) {
       return true;
@@ -166,24 +165,32 @@ Game.prototype.playPause = function () {
     this.paused = false;
     this.message('<br>### Resuming game... ###');
     window.gameClock = window.setInterval(function() { game.tick() }, this.tick_rate);
+    $('.pauseBtn').removeClass('paused');
   } else {
     this.paused = true;
     this.message('<br>### Game is paused! ###');
     window.clearInterval(gameClock);
+    $('.pauseBtn').addClass('paused');
   }
 };
 
 Game.prototype.tick = function () {
-  //console.log('tick');
-  var aggressor = this.enemies[Rand.getInt(0,2)];
-  var rand_ship = Rand.getInt(0,3);
-  
-  if (rand_ship == 3) {
-    var target = this.my_ship;
-  } else {
-    var target = this.enemies[rand_ship];
+  if (Math.random() > 0.7) {
+    // Make a random ship shoot.
+    var aggressor = this.enemies[Rand.getInt(0,2)];
+    var rand_ship = Rand.getInt(0,3);
+    if (rand_ship == 3) {
+      var target = this.my_ship;
+    } else {
+      var target = this.enemies[rand_ship];
+    }
+    target.hit(aggressor, Rand.getInt(0,aggressor.weapons.length - 1))
   }
-  target.hit(aggressor, Rand.getInt(0,aggressor.weapons.length - 1))
+    
+  // increment power
+  for (var x = 0; x < game.enemies.length; x++) {
+    this.enemies[x].tick();
+  }
 };
 
 Game.prototype.end = function (message) {

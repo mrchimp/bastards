@@ -56,3 +56,9 @@ CrewMember.prototype.kill = function () {
 CrewMember.prototype.toString = function () {
   return this.name
 };
+
+CrewMember.prototype.tick = function () {
+  if (this.hp < this.max_hp) {
+    this.hp += 1;
+  }
+};

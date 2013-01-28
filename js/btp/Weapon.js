@@ -12,6 +12,7 @@ function Weapon(options) {
   this.hull_damage = 15,
   this.crew_damage = 15,
   this.section_damage = 30,
+  this.ammo = 0,
   this.ammo_type = 'laser',
   this.power_used = 1,
   this.missiles_used = 0,
@@ -19,8 +20,17 @@ function Weapon(options) {
     shield: true
   };
   $.extend(this, options);
-}
+};
 
 Weapon.prototype.toString = function () {
   return this.name;
-}
+};
+
+Weapon.prototype.fire = function () {
+  if (this.ammo > this.rounds_per_shot) {
+    this.ammo -= this.rounds_per_shot;
+    return true;
+  } else {
+    return false;
+  }
+};
