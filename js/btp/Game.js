@@ -104,6 +104,8 @@ Game.prototype.dice = function(sides) {
 };
 
 Game.prototype.refreshScreen = function() {
+  console.log('tick');
+
   $('#ships').html('');
   
   // display crew

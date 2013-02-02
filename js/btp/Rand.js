@@ -9,8 +9,13 @@ var Rand = {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   },
   getColor: function(min, max, greyscale) {
+    if (min > 255) min = 255;
+    if (max > 255) max = 255;
+    
     if (greyscale) {
-      return '#'+String(Rand.getInt(min, max)).repeat(3);
+      var bit = Rand.getInt(min, max).toString(16);
+      if (bit.length == 1) { bit = '0'+bit; }
+      return '#'+bit.repeat(3);
     } else {
       return '#'+String(Rand.getInt(min, max))+String(getRandomInt(min, max))+String(getRandomInt(min, max));
     }

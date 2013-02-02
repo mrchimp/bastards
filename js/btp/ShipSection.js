@@ -22,7 +22,7 @@ function ShipSection(options) {
 }
 
 ShipSection.prototype.hit = function (damage) {
-  game.message(this.ship + ' ' + this + ' hit: ' + damage);
+  game.message(this.ship+' '+this+' hit: '+'<span class="' + (this.ship.affiliation == 'friend' ? 'bad' : 'good') + '">-'+damage+' hp</span>');
   this.hp -= damage;
   if (this.hp < 1) {
     this.hp = 0;

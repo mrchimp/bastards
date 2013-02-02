@@ -51,10 +51,16 @@ button {
   font-family: 'modesevenregular', monospace;
   height: 24px;
 }
+.pauseBtn {
+  transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
+  -webkit-transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
+  -ms-transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
+  -moz-transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
+}
 .pauseBtn.paused {
   border-color: #600;
   color: #f00;
-  box-shadow: 0 0 25px rgba(155,0,0,0.5);
+  text-shadow: 0 0 10px #f00;
 }
 
 a {
@@ -103,7 +109,7 @@ h1#main_title {
   line-height: 26px;
   padding: 0;
   margin: 0;
-  text-shadow: 0 0 14px rgba(255, 128, 0, 0.66);
+  text-shadow: 0 0 13px rgba(255, 128, 0, 0.96);
 }
 
 div.section {
@@ -150,6 +156,26 @@ div.section {
   color: #000;
   background-color: #b50;
 }
+#messages span.friend {
+  color: #090;
+  text-shadow: 0px 0px 37px rgba(0,255,0,1),
+      0px 0px 22px rgba(0,255,0,1);
+}
+#messages span.enemy {
+  color: #900;
+  text-shadow: 0px 0px 37px rgba(255,0,0,1),
+      0px 0px 22px rgba(255,0,0,1);
+}
+#messages span.good {
+  color: #090;
+  text-shadow: 0px 0px 37px rgba(0,255,0,1),
+      0px 0px 22px rgba(0,255,0,1);
+}
+#messages span.bad {
+  color: #900;
+  text-shadow: 0px 0px 37px rgba(255,0,0,1),
+      0px 0px 22px rgba(255,0,0,1);
+}
 
 .ul {
   text-decoration: underline;
@@ -180,6 +206,7 @@ div.section {
   box-shadow: 0 0 14px rgba(0, 255, 0, 0.26),
     inset 0 0 14px rgba(0,255,0,0.12);
   border-radius: 5px;
+  text-shadow: 0 0 13px rgba(0, 255, 0, 0.52);
 }
 .ship.dead {
   opacity: 0.4;
@@ -195,6 +222,7 @@ div.section {
   color: #d00;
   box-shadow: 0 0 14px rgba(255, 0, 0, 0.25),
     inset 0 0 14px rgba(255, 0, 0, 0.22);
+  text-shadow: 0 0 13px rgba(255, 0, 0, 0.52);
 }
 .ship.enemy::selection,
 .ship.enemy *::selection {

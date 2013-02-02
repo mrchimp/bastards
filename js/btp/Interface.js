@@ -64,12 +64,12 @@ $(document).ready(function () {
   
   // Create some stars
   for (var x = 0; x < 500; x++) {
-    var randcol = Rand.getColor(0, 6, true);
+    var randcol = Rand.getColor(0, 70, true);
     star = new Kinetic.Rect({
       x: Rand.getInt(7, game.space_width - 7),
       y: Rand.getInt(7, game.space_height - 7),
-      width: 3,
-      height: 3,
+      width: 4,
+      height: 4,
       fill: randcol,
       stroke: 'black',
       strokeWidth: 0
@@ -93,11 +93,15 @@ $(document).ready(function () {
       y: game.enemies[x].y - 5,
       text: game.enemies[x].name,
       fill: '#c00',
-      fontFamily: 'arial'
+      fontFamily: 'arial',
+      shadowColor: '#f00',
+      shadowBlur: 10,
+      shadowOffset: 0,
+      shadowOpacity: 1
     }));
   }
   
-  // add the badger
+  // add the hawk
   game.my_ship.shape = new Kinetic.Rect({
     x: game.my_ship.x,
     y: game.my_ship.y,
@@ -112,7 +116,11 @@ $(document).ready(function () {
     y: game.my_ship.y - 5,
     text: game.my_ship.name,
     fill: '#0c0',
-    fontFamily: 'arial'
+    fontFamily: 'arial',
+    shadowColor: '#0f0',
+    shadowBlur: 10,
+    shadowOffset: 0,
+    shadowOpacity: 1
   });
   
   // Set up message output

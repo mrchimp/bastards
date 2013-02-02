@@ -132,7 +132,7 @@ Ship.prototype.hit = function (aggressor, weapon_index) {
   }
 
   game.message('------------------------------------------');
-  game.message('<strong>' + aggressor + '</strong> fires a ' + aggressor.weapons[weapon_index] + ' at <strong>' + this + '</strong>!');
+  game.message('<span class="'+aggressor.affiliation+'">' + aggressor + '</span> fires ' + aggressor.weapons[weapon_index] + ' at <span class="'+this.affiliation+'">' + this + '</span>!');
   
   if (weapon.ammo_type == 'missile' && aggressor.missiles < 1) {
   
@@ -152,7 +152,7 @@ Ship.prototype.hit = function (aggressor, weapon_index) {
     if (shield) {
       //game.message('Ship has a shield with '+ shield.hp +' hp');
       var shield_factor = (weapon.hull_damage / 100) * shield.hp;
-      game.message('Shield factor: '+shield_factor); 
+      game.message('Shield: '+shield.hp + 'hp, factor: '+shield_factor); 
     } else {
       var shield_factor = 0;
       //game.message('No shield.');
