@@ -72,11 +72,11 @@ $(document).ready(function () {
       height: 4,
       fill: randcol,
       stroke: 'black',
-      strokeWidth: 0
+      strokeWidth: 1
     });
     layer_stars.add(star);
   }
-    
+  
   // show enemy ships on canvas
   for (var x = 0; x < game.enemies.length; x++) {
     layer_ships.add(new Kinetic.Rect({
@@ -107,7 +107,7 @@ $(document).ready(function () {
     y: game.my_ship.y,
     width: 5,
     height: 5,
-    fill: '#0c0',
+    fill: '#00cc00',
     stroke: 'black',
     strokeWidth: 0
   });
@@ -115,9 +115,9 @@ $(document).ready(function () {
     x: game.my_ship.x + 10,
     y: game.my_ship.y - 5,
     text: game.my_ship.name,
-    fill: '#0c0',
+    fill: '#00cc00',
     fontFamily: 'arial',
-    shadowColor: '#0f0',
+    shadowColor: '#00ff00',
     shadowBlur: 10,
     shadowOffset: 0,
     shadowOpacity: 1
