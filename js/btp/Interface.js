@@ -10,6 +10,7 @@ $(document).ready(function () {
     space_width: 310,
     space_height: 250
   });
+
   game.init();
   
   game.my_ship = new Ship({
@@ -25,25 +26,31 @@ $(document).ready(function () {
       new CrewMember({name:'Patry Gibbon'})
     ]
   });
+
+  for (var i = 0; i < game.my_ship.crew.length; i++) {
+    game.my_ship.crew[i].ship = game.my_ship;
+  }
+
+  console.log(game.my_ship);
   
-  game.addEnemy({
+  game.addEnemy(new Ship({
     name: 'Bastards',
     tmpl: $('#shipTmpl').html(),
     x: Rand.getInt(30,game.space_width-10),
     y: Rand.getInt(30,game.space_height-10)
-  });
-  game.addEnemy({
+  }));
+  game.addEnemy(new Ship({
     name: 'Theives',
     tmpl: $('#shipTmpl').html(),
     x: Rand.getInt(30,game.space_width-10),
     y: Rand.getInt(30,game.space_height-10)
-  });
-  game.addEnemy({
+  }));
+  game.addEnemy(new Ship({
     name: 'Pirates',
     tmpl: $('#shipTmpl').html(),
     x: Rand.getInt(30,game.space_width-10),
     y: Rand.getInt(30,game.space_height-10)
-  });
+  }));
   
   
   String.prototype.repeat = function( num ) {
@@ -51,7 +58,7 @@ $(document).ready(function () {
   }
 
   // Create space -  Let there be light, etc...
-  var stage = new Kinetic.Stage({
+  game.stage = new Kinetic.Stage({
     container: 'space',
     width: 320,
     height: 250
@@ -64,22 +71,22 @@ $(document).ready(function () {
   
   // Create some stars
   for (var x = 0; x < 500; x++) {
-    var randcol = Rand.getColor(0, 70, true);
+    var randcol = Rand.getColor(0, 180, true);
     star = new Kinetic.Rect({
       x: Rand.getInt(7, game.space_width - 7),
       y: Rand.getInt(7, game.space_height - 7),
-      width: 4,
-      height: 4,
+      width: 3,
+      height: 3,
       fill: randcol,
       stroke: 'black',
-      strokeWidth: 1
+      strokeWidth: 0
     });
     layer_stars.add(star);
   }
   
   // show enemy ships on canvas
   for (var x = 0; x < game.enemies.length; x++) {
-    layer_ships.add(new Kinetic.Rect({
+    game.enemies[x].shape = new Kinetic.Rect({
       x: game.enemies[x].x,
       y: game.enemies[x].y,
       width: 5,
@@ -87,8 +94,11 @@ $(document).ready(function () {
       fill: '#f00',
       stroke: 'black',
       strokeWidth: 0
-    }));
-    layer_ships.add(new Kinetic.Text({
+    });
+
+    layer_ships.add(game.enemies[x].shape);
+
+    game.enemies[x].label = new Kinetic.Text({
       x: game.enemies[x].x + 10,
       y: game.enemies[x].y - 5,
       text: game.enemies[x].name,
@@ -98,7 +108,9 @@ $(document).ready(function () {
       shadowBlur: 10,
       shadowOffset: 0,
       shadowOpacity: 1
-    }));
+    });
+
+    layer_ships.add(game.enemies[x].label);
   }
   
   // add the hawk
@@ -139,9 +151,9 @@ $(document).ready(function () {
   layer_ships.add(game.my_ship.shape);
   layer_ships.add(game.my_ship.label);
   
-  stage.add(layer_stars);
-  stage.add(layer_ships);
-  stage.add(layer_message);
+  game.stage.add(layer_stars);
+  game.stage.add(layer_ships);
+  game.stage.add(layer_message);
   
   /**
    * Add some controls
@@ -160,6 +172,11 @@ $(document).ready(function () {
   
   $('#fireMissile').on('click', function () {
     game.enemies[game.dice(game.enemies.length)].hit(game.my_ship, 1);
+  });
+  
+  $('#doWarp').on('click', function () {
+    console.log(game.my_ship);
+    game.my_ship.warp();
   });
   
   $('.pauseBtn').on('click', function () {

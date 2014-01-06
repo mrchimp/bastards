@@ -24,7 +24,7 @@ function Game(options) {
       section_damage: 40,
       ammo_type: 'laser',
       rounds_per_shot: 2,
-      ammo: 30,
+      ammo: 45,
       blocked_by: {
         shield: true
       }
@@ -36,7 +36,7 @@ function Game(options) {
       section_damage: 40,
       ammo_type: 'missile',
       rounds_per_shot: 1,
-      ammo: 3,
+      ammo: 5,
       blocked_by: {
         shield: false
       }
@@ -104,7 +104,7 @@ Game.prototype.dice = function(sides) {
 };
 
 Game.prototype.refreshScreen = function() {
-  console.log('tick');
+  console.log('refreshScreen');
 
   $('#ships').html('');
   
@@ -117,8 +117,8 @@ Game.prototype.refreshScreen = function() {
       hp = this.my_ship.crew[x].hp
       max_hp = this.my_ship.crew[x].max_hp
       dim = 70;
-      color = '#'+this.makeHex((max_hp - hp), max_hp, dim)+this.makeHex(hp, max_hp, dim)+'00';    
-      $(".crew[data-name='"+this.my_ship.crew[x].name+"'] .hp").css({
+      color = '#' + this.makeHex((max_hp - hp), max_hp, dim) + this.makeHex(hp, max_hp, dim) + '00';
+      $(".crew[data-name='" + this.my_ship.crew[x].name + "'] .hp").css({
         'color': color
       });
     }
@@ -131,15 +131,17 @@ Game.prototype.refreshScreen = function() {
   }
 };
 
-Game.prototype.addEnemy = function (options) {
-  var enemy = new Ship(options);
+Game.prototype.addEnemy = function (enemy_ship) {
+  var fng;
   for (var x = 0; x < 3; x++) {
-    enemy.addCrew({
+    fng = new CrewMember({
       name: this.available_names[Math.floor(Math.random() * this.available_names.length)]
     });
+    fng.ship = enemy_ship;
+    enemy_ship.addCrew(fng);
   }
-  this.enemies.push(enemy);
-  this.message('A ship appears: '+enemy);
+  this.enemies.push(enemy_ship);
+  this.message('A ship appears: ' + enemy_ship);
   this.refreshScreen();
 };
 
@@ -166,7 +168,9 @@ Game.prototype.playPause = function () {
   if (this.paused) {
     this.paused = false;
     this.message('<br>### Resuming game... ###');
-    window.gameClock = window.setInterval(function() { game.tick() }, this.tick_rate);
+    window.gameClock = window.setInterval(function() {
+      game.tick();
+    }, this.tick_rate);
     $('.pauseBtn').removeClass('paused');
   } else {
     this.paused = true;

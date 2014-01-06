@@ -16,6 +16,7 @@ function Weapon(options) {
   this.ammo_type = 'laser',
   this.power_used = 1,
   this.missiles_used = 0,
+  this.rounds_per_shot = 1,
   this.blocked_by = {
     shield: true
   };
@@ -27,8 +28,12 @@ Weapon.prototype.toString = function () {
 };
 
 Weapon.prototype.fire = function () {
-  if (this.ammo > this.rounds_per_shot) {
-    this.ammo -= this.rounds_per_shot;
+  console.log('fire');
+  console.log(this.ammo);
+  console.log(this.rounds_per_shot);
+  if (this.ammo >= this.rounds_per_shot) {
+    this.ammo = this.ammo - this.rounds_per_shot;
+    console.log(this.ammo);
     return true;
   } else {
     return false;

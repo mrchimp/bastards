@@ -31,6 +31,7 @@ CrewMember.prototype.hit = function (damage) {
   this.hp -= damage;
   
   game.refreshScreen();
+  console.log(this);
   game.message(this.name+' hit: <span class="'+(this.ship.affiliation == 'friend' ? 'bad' : 'good')+'">-' + damage + ' hp</span>');
   
   if (this.hp < 1) {
@@ -54,7 +55,7 @@ CrewMember.prototype.kill = function () {
 };
 
 CrewMember.prototype.toString = function () {
-  return this.name
+  return this.name;
 };
 
 CrewMember.prototype.tick = function () {

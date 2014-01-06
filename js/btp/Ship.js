@@ -9,7 +9,6 @@
 function Ship(options) {
   this.name = 'name',
   this.affiliation = 'enemy',
-  this.warp = 0,
   this.power = 20,
   this.max_power = 100,
   this.missiles = 6,
@@ -82,9 +81,7 @@ function Ship(options) {
   }
 }
 
-Ship.prototype.addCrew = function (options) {
-  fng = new CrewMember(options);
-  
+Ship.prototype.addCrew = function (fng) {
   this.crew.push(fng);
   
   //game.message(this.name+' +crew: '+options.name);
@@ -113,33 +110,35 @@ Ship.prototype.hit = function (aggressor, weapon_index) {
   
   var weapon = aggressor.weapons[weapon_index];
   
-  if (!weapon.fire()) {
-    return false;
-  }
-  
   if (weapon.ammo_type == 'laser') {
     if (aggressor.power <= 1) {
+      game.message('Not enough power to use laser!');
+      game.refreshScreen();
       return false;
     } else {
       aggressor.power -= weapon.power_used;
     }
-  } else if (weapon.ammo_type == 'missile') {
-    if (aggressor.missiles <= 1) {
-      return false;
+  }
+
+  if (!weapon.fire()) {
+    console.log(weapon);
+    if (weapon.ammo > 0) {
+      game.message('Not enough ammo! ' + weapon.name + ' takes ' + weapon.rounds_per_shot + ' ammo per shot.');
     } else {
-      aggressor.missiles -= weapon.missiles_used;
+      game.message('No ammo!');
     }
+    game.refreshScreen();
+    return false;
   }
 
   game.message('------------------------------------------');
-  game.message('<span class="'+aggressor.affiliation+'">' + aggressor + '</span> fires ' + aggressor.weapons[weapon_index] + ' at <span class="'+this.affiliation+'">' + this + '</span>!');
+  game.message('<span class="' + aggressor.affiliation + '">' + aggressor + '</span> fires ' + aggressor.weapons[weapon_index] + ' at <span class="'+this.affiliation+'">' + this + '</span>!');
   
   if (weapon.ammo_type == 'missile' && aggressor.missiles < 1) {
   
   }
-  
 
-  weapon.ammo -= weapon.rounds_per_shot;
+  //weapon.ammo -= weapon.rounds_per_shot;
   
   // Do some evade stuff
   var engine = this.getSection('engine');
@@ -191,7 +190,16 @@ Ship.prototype.toString = function () {
 };
 
 Ship.prototype.warp = function () {
+  var move_x = Rand.getInt(-10,10);
+  var move_y = Rand.getInt(-10,10);
   
+  this.x = this.x + move_x;
+  this.y = this.y + move_x;
+  
+  this.shape.move(move_x, move_y);
+  this.label.move(move_x, move_y);
+  game.stage.draw();
+  game.message(this.name + ' warps: ' + move_x + ', ' + move_y);
 };
 
 Ship.prototype.tick = function () {
