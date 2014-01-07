@@ -212,6 +212,4 @@ $(document).ready(function () {
         break;
     }
   });
-  
-  //game.playPause();
 });

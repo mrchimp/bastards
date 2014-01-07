@@ -78,3 +78,31 @@ They just want your stuff and they'll try to be sneaky about it.
 ### Pirates ###
 
 Want your stuff and they won't ask nicely.
+
+
+
+Parameters
+==========
+
+    Name          Notes
+    ---------------------------------------------
+    Missiles      This just gradually goes down.
+    Lasers        These are powered by power.
+    
+    Warp          Cooldown time after warping.
+    
+    READOUTS
+    hull          While 0, oxygen drops.
+    oxygen        While 0, crew health drops.
+    power         Alters effects of lasers, shields & engines.
+    fuel          While 0, cannot warp.
+    
+    SECTIONS
+    shield        Damage is limited in some relation to this amount.
+    engine        Must be above 0 to warp.
+    O2            While above 0, oxygen regenerates in relation to this value.
+    medic         While above 0, crew health regenerates in relation to this value.
+    weapons       While 0, cannot shoot. While higher number means more accurate weapons.
+    bridge        While 0, cannot warp.
+    
+    crew          When all crew health hits 0 - game over.

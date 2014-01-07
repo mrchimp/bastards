@@ -12,6 +12,7 @@
   <link rel="stylesheet" type="text/css" href="css/style.css" />
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/kineticjs/4.7.2/kinetic.min.js"></script>
+  <script type="text/javascript" src="packages/jquery-knob/js/jquery.knob.js"></script>
   <script type="text/javascript" src="js/mustache.js"></script>
   <script type="text/javascript" src="js/btp/Rand.js"></script>
   <script type="text/javascript" src="js/btp/Ship.js"></script>
@@ -142,12 +143,12 @@
     <div id="messages"></div>
     <div id="space"></div>
   </div>
-  <div class="section">
-    CONTROLS 
-    <span class="pauseBtn paused"><span class="ul">P</span>ause</span> / 
-    <span id="fireLaser"><span class="ul">L</span>aser</span> / 
-    <span id="fireMissile"><span class="ul">M</span>issile</span> / 
-    <span id="doWarp"><span class="ul">W</span>arp</span>
+  <div class="section controls">
+    <span>CONTROLS</span>
+    <button class="pauseBtn paused"><span class="ul">P</span>ause</button>
+    <button id="fireLaser"><span class="ul">L</span>aser</button>
+    <button id="fireMissile"><span class="ul">M</span>issile</button>
+    <button id="doWarp"><span class="ul">W</span>arp</button>
   </div>
   <!-- <div class="section">
     <button id="fireLaser">Fire Laser</button>

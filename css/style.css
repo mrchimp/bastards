@@ -41,21 +41,12 @@ body {
 h4 {
   margin: 3px 0 0 0;
 }
-button {
-  float: left;
-  border-radius: 5px;
-  background-color: #000;
-  border: 1px solid #b50;
-  color: #e70;
-  padding: 4px;
-  font-family: 'modesevenregular', monospace;
-  height: 24px;
-}
 .pauseBtn {
-  transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
   -webkit-transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
-  -ms-transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
-  -moz-transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
+     -moz-transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
+      -ms-transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
+       -o-transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
+          transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
 }
 .pauseBtn.paused {
   border-color: #600;
@@ -116,15 +107,25 @@ div.section {
   clear: both;
 }
 
-#controls {
+.controls {
   clear: both;
-  margin-bottom: 35px;
   width: 100%;
+}
+.controls button {
+  display: inline-block;
+  border-radius: 5px;
+  background-color: #000;
+  border: 1px solid #b50;
+  outline: 0;
+  color: #e70;
+  padding: 4px;
+  font-family: 'modesevenregular', monospace;
+  height: 24px;
 }
 #space,
 #messages {
   box-shadow: 0 0 14px rgba(255, 128, 0, 0.32),
-    inset 0 0 14px rgba(255,128,0,0.32);
+        inset 0 0 14px rgba(255, 128, 0, 0.32);
   border-radius: 5px;
 }
 #space {
@@ -150,7 +151,7 @@ div.section {
 	background: #000;
   color: #e70;
   text-shadow: 0px 0px 37px rgba(255,128,0,1),
-      0px 0px 22px rgba(255,128,0,1);
+               0px 0px 22px rgba(255,128,0,1);
 }
 #messages::selection {
   color: #000;
@@ -159,22 +160,22 @@ div.section {
 #messages span.friend {
   color: #090;
   text-shadow: 0px 0px 37px rgba(0,255,0,1),
-      0px 0px 22px rgba(0,255,0,1);
+               0px 0px 22px rgba(0,255,0,1);
 }
 #messages span.enemy {
   color: #900;
   text-shadow: 0px 0px 37px rgba(255,0,0,1),
-      0px 0px 22px rgba(255,0,0,1);
+               0px 0px 22px rgba(255,0,0,1);
 }
 #messages span.good {
   color: #090;
   text-shadow: 0px 0px 37px rgba(0,255,0,1),
-      0px 0px 22px rgba(0,255,0,1);
+               0px 0px 22px rgba(0,255,0,1);
 }
 #messages span.bad {
   color: #900;
   text-shadow: 0px 0px 37px rgba(255,0,0,1),
-      0px 0px 22px rgba(255,0,0,1);
+               0px 0px 22px rgba(255,0,0,1);
 }
 
 .ul {
@@ -204,7 +205,7 @@ div.section {
   background-color: #000f00;
   color: #090;
   box-shadow: 0 0 14px rgba(0, 255, 0, 0.26),
-    inset 0 0 14px rgba(0,255,0,0.12);
+        inset 0 0 14px rgba(0, 255, 0, 0.12);
   border-radius: 5px;
   text-shadow: 0 0 13px rgba(0, 255, 0, 0.52);
 }
@@ -221,7 +222,7 @@ div.section {
   background-color: #0f0000;
   color: #d00;
   box-shadow: 0 0 14px rgba(255, 0, 0, 0.25),
-    inset 0 0 14px rgba(255, 0, 0, 0.22);
+        inset 0 0 14px rgba(255, 0, 0, 0.22);
   text-shadow: 0 0 13px rgba(255, 0, 0, 0.52);
 }
 .ship.enemy::selection,
