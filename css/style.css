@@ -3,7 +3,20 @@
  *
  * Copyright 2013 Mr Chimp - deviouschimp.co.uk.
  * Released with a foolish disregard to licenses.
-**/
+ */
+
+
+
+@font-face {
+  font-family: 'digital-7_monomono';
+  src: url('digital-7_mono-webfont.eot');
+  src: url('digital-7_mono-webfont.eot?#iefix') format('embedded-opentype'),
+       url('digital-7_mono-webfont.svg#digital-7_monomono') format('svg'),
+       url('digital-7_mono-webfont.woff') format('woff'),
+       url('digital-7_mono-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 *::-webkit-scrollbar {
   width: 10px;
