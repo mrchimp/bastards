@@ -40,7 +40,7 @@ $(document).ready(function () {
     y: Rand.getInt(30,game.space_height-10)
   }));
   game.addEnemy(new Ship({
-    name: 'Theives',
+    name: 'Thieves',
     tmpl: $('#shipTmpl').html(),
     x: Rand.getInt(30,game.space_width-10),
     y: Rand.getInt(30,game.space_height-10)
