@@ -5,6 +5,8 @@
  * Released with a foolish disregard to licenses.
 **/
 function Game(options) {
+  'use strict';
+
   this.game = this;
   this.enemies = [];
   this.tick_rate = 3000;
@@ -13,9 +15,11 @@ function Game(options) {
   this.paused = true;
   this.bar_width = 40;
   this.clock = null;
+
   if (options) {
     $.extend(this, options);
   }
+  
   this.available_weapons = [
     {
       name: 'Laser',
@@ -42,6 +46,7 @@ function Game(options) {
       }
     }
   ];
+
   // names from - http://www.rhetoricalramblings.com/robotname/index.html
   // more - http://www.seventhsanctum.com/generate.php?Genname=quickchar
   // even more - http://donjon.bin.sh/scifi/name/#terran_male
@@ -84,6 +89,15 @@ Game.prototype.init = function () {
   var t = this;
 };
 
+Game.prototype.setShip = function (options) {
+  'use strict';
+
+  this.my_ship = new Ship(options);
+
+  this.my_ship.addWeapon(Bastards.game.available_weapons[0]);
+  this.my_ship.addWeapon(Bastards.game.available_weapons[1]);
+};
+
 Game.prototype.allDead = function () {
   for (x = 1; x < this.enemies.length; x++) {
     if (this.enemies[x].is_dead) {
@@ -91,10 +105,10 @@ Game.prototype.allDead = function () {
     }
   }
   return false;
-}
+};
 
 Game.prototype.message = function (msg) {
-  $('#messages').append(msg+'<br>');
+  $('#messages').append(msg + '<br>');
   $('#messages').scrollTop($('#messages')[0].scrollHeight);
 };
 
@@ -104,7 +118,7 @@ Game.prototype.dice = function(sides) {
 };
 
 Game.prototype.refreshScreen = function() {
-  console.log('refreshScreen');
+  var x;
 
   $('#ships').html('');
   
@@ -113,11 +127,12 @@ Game.prototype.refreshScreen = function() {
     $('#ships').append(this.my_ship.toHtml());
     
     // set health colours
-    for (var x = 0; x < this.my_ship.crew.length; x++) {
-      hp = this.my_ship.crew[x].hp
-      max_hp = this.my_ship.crew[x].max_hp
-      dim = 70;
-      color = '#' + this.makeHex((max_hp - hp), max_hp, dim) + this.makeHex(hp, max_hp, dim) + '00';
+    for (x = 0; x < this.my_ship.crew.length; x++) {
+      var hp = this.my_ship.crew[x].hp,
+          max_hp = this.my_ship.crew[x].max_hp,
+          dim = 70,
+          color = '#' + this.makeHex((max_hp - hp), max_hp, dim) + this.makeHex(hp, max_hp, dim) + '00';
+      
       $(".crew[data-name='" + this.my_ship.crew[x].name + "'] .hp").css({
         'color': color
       });
@@ -125,32 +140,49 @@ Game.prototype.refreshScreen = function() {
   }
   
   if (this.enemies.length > 0) {
-    for (var x = 0; x < this.enemies.length; x++) {
+    for (x = 0; x < this.enemies.length; x++) {
       $('#ships').append(this.enemies[x].toHtml());
     }
   }
 };
 
-Game.prototype.addEnemy = function (enemy_ship) {
-  var fng;
+Game.prototype.addEnemy = function (options) {
+  var enemy_ship = new Ship(options),
+  fng;
+
   for (var x = 0; x < 3; x++) {
     fng = new CrewMember({
       name: this.available_names[Math.floor(Math.random() * this.available_names.length)]
     });
+    
     fng.ship = enemy_ship;
+    
     enemy_ship.addCrew(fng);
   }
+
+  enemy_ship.addWeapon(Bastards.game.available_weapons[0]);
+  enemy_ship.addWeapon(Bastards.game.available_weapons[1]);
+
   this.enemies.push(enemy_ship);
   this.message('A ship appears: ' + enemy_ship);
   this.refreshScreen();
 };
 
 Game.prototype.makeHex = function (num, max, dim) {
-  if (!dim) { dim = 0 }
-  if (!max) { max = 100 }
+  if (!dim) {
+    dim = 0;
+  }
+  if (!max) {
+    max = 100;
+  }
+  
   max_color = 255 - dim;
   dec = Math.floor(((num / max) * max_color));
-  if (dec > max_color) { dec = max_color; }
+  
+  if (dec > max_color) {
+    dec = max_color;
+  }
+  
   hex = dec.toString(16);
   
   while (hex.length < 2) {
@@ -161,44 +193,50 @@ Game.prototype.makeHex = function (num, max, dim) {
 };
 
 Game.prototype.toString = function () {
-  return 'Bastards Thieves and Pirates Game';
+  return 'Bastards, Thieves and Pirates Game';
 };
 
 Game.prototype.playPause = function () {
   if (this.paused) {
     this.paused = false;
     this.message('<br>### Resuming game... ###');
+    
     window.gameClock = window.setInterval(function() {
-      game.tick();
+      Bastards.game.tick();
     }, this.tick_rate);
+    
     $('.pauseBtn').removeClass('paused');
   } else {
     this.paused = true;
     this.message('<br>### Game is paused! ###');
+    
     window.clearInterval(gameClock);
+    
     $('.pauseBtn').addClass('paused');
   }
 };
 
 Game.prototype.tick = function () {
   if (Math.random() > 0.7) {
-    // Make a random ship shoot.
-    var aggressor = this.enemies[Rand.getInt(0,2)];
-    var rand_ship = Rand.getInt(0,3);
+    var aggressor = this.enemies[Rand.getInt(0,2)],
+        rand_ship = Rand.getInt(0,3),
+        target;
+
     if (rand_ship == 3) {
-      var target = this.my_ship;
+      target = this.my_ship;
     } else {
-      var target = this.enemies[rand_ship];
+      target = this.enemies[rand_ship];
     }
-    target.hit(aggressor, Rand.getInt(0,aggressor.weapons.length - 1))
+    
+    target.hit(aggressor, Rand.getInt(0,aggressor.weapons.length - 1));
   }
     
   // increment power
-  for (var x = 0; x < game.enemies.length; x++) {
+  for (var x = 0; x < Bastards.game.enemies.length; x++) {
     this.enemies[x].tick();
   }
 };
 
 Game.prototype.end = function (message) {
-  $('#popover').html('<h1>GAME OVER</h1><p>'+message+'</p><p><a href="" class="goRestart">Play again?</a></p>').fadeIn(200);
-}
+  $('#popover').html('<h1>GAME OVER</h1><p>' + message + '</p><p><a href="" class="goRestart">Play again?</a></p>').fadeIn(200);
+};

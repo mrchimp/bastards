@@ -1,5 +1,5 @@
 /**
- * A crew member aboard a ship.
+ * A ship.
  *
  * Natural habitat: game.my_ship and game.enemies
  *
@@ -7,29 +7,26 @@
  * Released with a foolish disregard to licenses.
  */
 function Ship(options) {
-  this.name = 'name',
-  this.affiliation = 'enemy',
-  this.power = 20,
-  this.max_power = 100,
-  this.missiles = 6,
-  this.max_missiles = 20,
-  this.fuel = 10,
-  this.max_fuel = 50,
-  this.oxygen = 100,
-  this.hull = 20,
-  this.max_hull = 100,
-  this.type = 'default',
-  this.tmpl = '',
-  this.x = 0,
+  this.name = 'name';
+  this.affiliation = 'enemy';
+  this.power = 20;
+  this.max_power = 100;
+  this.missiles = 6;
+  this.max_missiles = 20;
+  this.fuel = 10;
+  this.max_fuel = 50;
+  this.oxygen = 100;
+  this.hull = 20;
+  this.max_hull = 100;
+  this.type = 'default';
+  this.tmpl = '';
+  this.x = 0;
   this.y = 0;
   this.crew = [];
   this.section_list = {};
   this.sections = [];
-  this.is_dead = false,
-  this.weapons = [
-    new Weapon(game.available_weapons[0]),
-    new Weapon(game.available_weapons[1])
-  ];
+  this.is_dead = false;
+  this.weapons = [];
   this.shipTypes = {
     'default': {
       max_hull: 100,
@@ -63,14 +60,14 @@ function Ship(options) {
   };
   
   this.display = {
-    hull: function () { return (this.hull / this.max_hull) * game.bar_width; },
-    oxygen: function () { return (this.oxygen / 100) * game.bar_width; },
-    power: function () { return (this.power / this.max_power) * game.bar_width; },
-    missiles: function () { return (this.missiles / this.max_missiles) * game.bar_width; },
-    fuel: function () { return (this.fuel / this.max_fuel) * game.bar_width },
-    warp: function () { return (this.warp / 100 * game.bar_width); },
-    bar_width: function () { return (game.bar_width) },
-    is_dead: function () { return (this.is_dead ? 'dead' : '') }
+    hull: function () { return (this.hull / this.max_hull) * Bastards.game.bar_width; },
+    oxygen: function () { return (this.oxygen / 100) * Bastards.game.bar_width; },
+    power: function () { return (this.power / this.max_power) * Bastards.game.bar_width; },
+    missiles: function () { return (this.missiles / this.max_missiles) * Bastards.game.bar_width; },
+    fuel: function () { return (this.fuel / this.max_fuel) * Bastards.game.bar_width; },
+    warp: function () { return (this.warp / 100 * Bastards.game.bar_width); },
+    bar_width: function () { return (Bastards.game.bar_width); },
+    is_dead: function () { return (this.is_dead ? 'dead' : ''); }
   };
   
   $.extend(this, options);
@@ -85,7 +82,7 @@ Ship.prototype.addCrew = function (fng) {
   this.crew.push(fng);
   
   //game.message(this.name+' +crew: '+options.name);
-  game.refreshScreen();
+  Bastards.game.refreshScreen();
 };
 
 Ship.prototype.addSection = function (options) {
@@ -94,17 +91,17 @@ Ship.prototype.addSection = function (options) {
   this.sections.push(new ShipSection(options));
   //game.message(this.name+' +section: '+options.name);
   
-  game.refreshScreen();
+  Bastards.game.refreshScreen();
 };
 
 Ship.prototype.addWeapon = function (options) {
   this.weapons.push(new Weapon(options));
-  game.refreshScreen();
+  Bastards.game.refreshScreen();
 };
 
 Ship.prototype.getSection = function(type) {
   return $.grep(this.sections, function(e){ return e.type == 'shield'; })[0];
-}
+};
 
 Ship.prototype.hit = function (aggressor, weapon_index) {
   
@@ -112,8 +109,8 @@ Ship.prototype.hit = function (aggressor, weapon_index) {
   
   if (weapon.ammo_type == 'laser') {
     if (aggressor.power <= 1) {
-      game.message('Not enough power to use laser!');
-      game.refreshScreen();
+      Bastards.game.message('Not enough power to use laser!');
+      Bastards.game.refreshScreen();
       return false;
     } else {
       aggressor.power -= weapon.power_used;
@@ -121,24 +118,21 @@ Ship.prototype.hit = function (aggressor, weapon_index) {
   }
 
   if (!weapon.fire()) {
-    console.log(weapon);
     if (weapon.ammo > 0) {
-      game.message('Not enough ammo! ' + weapon.name + ' takes ' + weapon.rounds_per_shot + ' ammo per shot.');
+      Bastards.game.message('Not enough ammo! ' + weapon.name + ' takes ' + weapon.rounds_per_shot + ' ammo per shot.');
     } else {
-      game.message('No ammo!');
+      Bastards.game.message('No ammo!');
     }
-    game.refreshScreen();
+    Bastards.game.refreshScreen();
     return false;
   }
 
-  game.message('------------------------------------------');
-  game.message('<span class="' + aggressor.affiliation + '">' + aggressor + '</span> fires ' + aggressor.weapons[weapon_index] + ' at <span class="'+this.affiliation+'">' + this + '</span>!');
+  Bastards.game.message('------------------------------------------');
+  Bastards.game.message('<span class="' + aggressor.affiliation + '">' + aggressor + '</span> fires ' + aggressor.weapons[weapon_index] + ' at <span class="'+this.affiliation+'">' + this + '</span>!');
   
   if (weapon.ammo_type == 'missile' && aggressor.missiles < 1) {
   
   }
-
-  //weapon.ammo -= weapon.rounds_per_shot;
   
   // Do some evade stuff
   var engine = this.getSection('engine');
@@ -147,16 +141,20 @@ Ship.prototype.hit = function (aggressor, weapon_index) {
   
   // Do some shield stuff
   if (weapon.blocked_by.shield) {
-    var shield = this.getSection('shield');
+    var shield = this.getSection('shield'),
+        shield_factor;
+
     if (shield) {
       //game.message('Ship has a shield with '+ shield.hp +' hp');
-      var shield_factor = (weapon.hull_damage / 100) * shield.hp;
-      game.message('Shield: '+shield.hp + 'hp, factor: '+shield_factor); 
+      shield_factor = (weapon.hull_damage / 100) * shield.hp;
+      Bastards.game.message('Shield: ' + shield.hp + 'hp, factor: ' + shield_factor); 
     } else {
-      var shield_factor = 0;
+      shield_factor = 0;
       //game.message('No shield.');
     }
+
     this.hull -= weapon.hull_damage;
+
     if (this.hull < 0) { 
       this.hull = 0; 
       this.die();
@@ -165,19 +163,19 @@ Ship.prototype.hit = function (aggressor, weapon_index) {
   }
   
   // Hit a crew member
-  var random_crew = this.crew[game.dice(game.my_ship.crew.length)];
+  var random_crew = this.crew[Bastards.game.dice(Bastards.game.my_ship.crew.length)];
   var damage_done = random_crew.hit(weapon.crew_damage);
   
   // Hit a section
-  this.sections[game.dice(this.sections.length)].hit(weapon.section_damage);
+  this.sections[Bastards.game.dice(this.sections.length)].hit(weapon.section_damage);
   
-  game.refreshScreen();
+  Bastards.game.refreshScreen();
 };
 
 Ship.prototype.die = function () {
   this.is_dead = true;
-  if (game.my_ship.is_dead) {
-    game.end('Your ship exploded.');
+  if (Bastards.game.my_ship.is_dead) {
+    Bastards.game.end('Your ship exploded.');
   }
 };
 
@@ -198,8 +196,8 @@ Ship.prototype.warp = function () {
   
   this.shape.move(move_x, move_y);
   this.label.move(move_x, move_y);
-  game.stage.draw();
-  game.message(this.name + ' warps: ' + move_x + ', ' + move_y);
+  Bastards.game.stage.draw();
+  Bastards.game.message(this.name + ' warps: ' + move_x + ', ' + move_y);
 };
 
 Ship.prototype.tick = function () {

@@ -5,15 +5,13 @@
  * Released with a foolish disregard to licenses.
  */
 
-
-
 @font-face {
-  font-family: 'digital-7_monomono';
-  src: url('digital-7_mono-webfont.eot');
-  src: url('digital-7_mono-webfont.eot?#iefix') format('embedded-opentype'),
-       url('digital-7_mono-webfont.svg#digital-7_monomono') format('svg'),
-       url('digital-7_mono-webfont.woff') format('woff'),
-       url('digital-7_mono-webfont.ttf') format('truetype');
+  font-family: 'digital7';
+  src: url('../fonts/digital7/digital-7_mono-webfont.eot');
+  src: url('../fonts/digital7/digital-7_mono-webfont.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/digital7/digital-7_mono-webfont.svg#digital-7_monomono') format('svg'),
+       url('../fonts/digital7/digital-7_mono-webfont.woff') format('woff'),
+       url('../fonts/digital7/digital-7_mono-webfont.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -46,7 +44,7 @@
 body {
   margin: 0;
   padding: 10px 5px;
-  font-size: 12px;
+  font-size: 14px;
   font-family: 'modesevenregular', monospace;
   background-color: black;
   color: #e70;
@@ -78,7 +76,7 @@ a {
   border: 1px solid #030;
   color: #090;
   overflow: hidden;
-  font-size: 12px;
+  font-size: 14px;
   text-align: left;
 }
 .bar p {
@@ -87,8 +85,8 @@ a {
   padding: 0;
   text-align: left;
   width: 100%;
-  line-height: 11px;
-  font-size: 12px;
+  line-height: 12px;
+  font-size: 14px;
   font-weight: bold;
 }
 .fill {
@@ -97,8 +95,8 @@ a {
   background: #090;
   color: black;
   overflow: hidden;
-  font-size: 12px;
-  line-height: 12px;
+  font-size: 14px;
+  line-height: 14px;
   left: 0;
   top: 0;
   font-weight: bold;
@@ -107,22 +105,24 @@ a {
   color: #900;
 }
 
-h1#main_title { 
+#main_title { 
   color: #e70;
-  font-size: 18px;
-  line-height: 26px;
+  font-size: 21px;
+  line-height: 31px;
   padding: 0;
-  margin: 0;
+  margin: 0 4px;
   text-shadow: 0 0 13px rgba(255, 128, 0, 0.96);
+  display: inline-block;
 }
 
-div.section {
-  clear: both;
+section {
+  width: 976px;
+  /*display: inline-block;*/
 }
 
 .controls {
-  clear: both;
-  width: 100%;
+  float: right;
+  margin: 5px;
 }
 .controls button {
   display: inline-block;
@@ -140,6 +140,7 @@ div.section {
   box-shadow: 0 0 14px rgba(255, 128, 0, 0.32),
         inset 0 0 14px rgba(255, 128, 0, 0.32);
   border-radius: 5px;
+  vertical-align: top;
 }
 #space {
   display: inline-block;
@@ -152,14 +153,14 @@ div.section {
 #messages {
   display: inline-block;
   float: left;
-  width: 310px;
+  width: 620px;
   height: 240px;
   border: 1px solid #b50;
   background-color: #000f00;
   padding: 5px;
   margin: 5px;
   overflow-y: scroll;
-  font-size: 12px; 
+  font-size: 14px; 
   line-height: 12px;
 	background: #000;
   color: #e70;
@@ -261,7 +262,7 @@ table.stats{
   border-spacing: 0;
 }
 table.stats td {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 15px;
   text-align: left;
   margin: 0;
@@ -298,4 +299,78 @@ table.stats td.gauge {
   background-color: rgba(0,0,0,0.7);
   z-index: 100;
   display: none;
+}
+
+.power-controls {
+  margin-top: 5px;
+  width: 633px;
+  display: inline-block;
+  vertical-align: top;
+}
+.power-controls > div {
+  margin-left: 26px;
+}
+.power-controls > div input {
+  text-shadow: 0 0 13px rgba(238, 119, 0, 0.62);
+  font-size: 33px !important;
+}
+.power-controls .dial-wrapper {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.power-controls .dial-wrapper h2 {
+  text-align: center;
+  margin-top: -15px;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.readouts {
+  width: 328px;
+  display: inline-block;
+  vertical-align: top;
+  text-align: right;
+  padding-top: 5px;
+}
+.readouts .readout-wrapper {
+  display: inline-block;
+  vertical-align: top;
+  width: 96px;
+  margin-left: 6px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 14px rgba(255, 128, 0, 0.32),
+        inset 0 0 14px rgba(255, 128, 0, 0.32);
+  border-radius: 5px;
+  border: 1px solid #b50;
+}
+
+.readouts .readout-wrapper h2 {
+  text-shadow: 0 0 13px rgba(238, 119, 0, 0.62);
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 16px;
+  display: inline-block;
+  width: 100%;
+  height: 40px;
+}
+.readouts .readout-wrapper .readout {
+  text-align: center;
+  font-family: 'digital7';
+  text-shadow: 0 0 13px rgba(238, 119, 0, 0.62);
+  font-size: 48px;
+}
+.readouts .readout-wrapper.danger {
+  box-shadow: 0 0 14px rgba(255, 0, 0, 0.42),
+        inset 0 0 14px rgba(255, 0, 0, 0.42);
+  border: 1px solid #d00;
+}
+.readouts .readout-wrapper.danger h2 {
+  text-shadow: 0 0 13px rgba(238, 0, 0, 0.72);
+  color: #d00;
+
+}
+.readouts .readout-wrapper.danger .readout {
+  text-shadow: 0 0 13px rgba(238, 0, 0, 0.72);
+  color: #d00;
 }
