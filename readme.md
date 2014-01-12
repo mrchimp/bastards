@@ -81,28 +81,60 @@ Want your stuff and they won't ask nicely.
 
 
 
-Parameters
-==========
+How stuff works
+===============
 
-    Name          Notes
+    Name        Notes
     ---------------------------------------------
-    Missiles      This just gradually goes down.
-    Lasers        These are powered by power.
-    
-    Warp          Cooldown time after warping.
+    lasers      These are powered by power.
+    warp        Cooldown time after warping.
     
     READOUTS
-    hull          While 0, oxygen drops.
-    oxygen        While 0, crew health drops.
-    power         Alters effects of lasers, shields & engines.
-    fuel          While 0, cannot warp.
+    ---------------------------------------------
+    missiles    Used when fired.
+                Do not replenish.
+    hull        While 0, oxygen drops.
+                Reduced by enemy weapons, increased by `repair` section.
+    oxygen      While 0, crew health drops.
+    power       Alters effects of lasers, shields & engines.
+    power       Alters effects of lasers, shields & engines.
+    fuel        While 0, cannot warp.
     
     SECTIONS
-    shield        Damage is limited in some relation to this amount.
-    engine        Must be above 0 to warp.
-    O2            While above 0, oxygen regenerates in relation to this value.
-    medic         While above 0, crew health regenerates in relation to this value.
-    weapons       While 0, cannot shoot. While higher number means more accurate weapons.
-    bridge        While 0, cannot warp.
+    ---------------------------------------------
+
+    Each section has a maximum power. This can be reduced when hit by enemy weapons and replenished by the repair section. The ship itself has a limited amount of power to distribute between sections. This distribution is controlled by the player.
+
+    shield      Limit damage to ship.
+      power     Damage to ship is limited in relation to this amount.
     
-    crew          When all crew health hits 0 - game over.
+    engine      Allows the ship to warp and dodge weapons.
+      power     Must be above 0 to warp. Greater power means better dodging.
+    
+    O2 Gen      Regenerates O2 for the crew to breathe.
+      power     While above 0, oxygen regenerates in relation to this value.
+    
+    medic       Repairs crew health.
+      power     While above 0, crew health regenerates in relation to this value.
+    
+    weapons     Powers missile launchers and lasers.
+      power     While 0, cannot shoot. While higher number means more accurate weapons.
+                All weapons require power to the weapons section to fire.
+    
+    repair      Repairs ship sections max power.
+      power     Sections max power increases in relation to this amount.
+
+    CREW
+    --------------------------------------------- 
+    crew        When all crew health hits 0 - game over.
+
+    TICK
+    --------------------------------------------- 
+    Every `x` amount of time the following happen:
+
+    * `Oxygen` is reduced by 1, also reduced further if `hull` is 0. 
+      increased in relation to `O2 Gen` power, 
+    * Crew `health` regenerates in relation to `medical` power.
+    * Weapon cooldowns regenerate in relation to `weapons` power.
+    * Warp cooldown regenerates in relation to `engine` power.
+    * Ship sections' max power and hull regenerate in relation to `repair` power.
