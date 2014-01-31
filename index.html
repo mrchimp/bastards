@@ -18,9 +18,6 @@
     <div class="controls">
       <span>CONTROLS</span>
       <button class="pauseBtn paused"><span class="ul">P</span>ause</button>
-      <button id="fireLaser"><span class="ul">L</span>aser</button>
-      <button id="fireMissile"><span class="ul">M</span>issile</button>
-      <button id="doWarp"><span class="ul">W</span>arp</button>
     </div>
   </section>
   
@@ -79,7 +76,14 @@
         <h2>Medical</h2>
       </div>
     </div>
+
+    <div class="controls">
+      <button id="fireLaser"><span class="ul">L</span>aser</button>
+      <button id="fireMissile"><span class="ul">M</span>issile</button>
+      <button id="doWarp"><span class="ul">W</span>arp</button>
+    </div>
   </section>
+
   <section id="ships"></section>
   <div id="popover"></div>
   <script id="shipTmpl" class="template" type="text/tmpl">
@@ -198,15 +202,6 @@
     </div>
   </script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/kineticjs/4.7.2/kinetic.min.js"></script>
-  <script type="text/javascript" src="packages/jquery-knob/js/jquery.knob.js"></script>
-  <script type="text/javascript" src="js/mustache.js"></script>
-  <script type="text/javascript" src="js/btp/Rand.js"></script>
-  <script type="text/javascript" src="js/btp/Ship.js"></script>
-  <script type="text/javascript" src="js/btp/CrewMember.js"></script>
-  <script type="text/javascript" src="js/btp/ShipSection.js"></script>
-  <script type="text/javascript" src="js/btp/Game.js"></script>
-  <script type="text/javascript" src="js/btp/Weapon.js"></script>
-  <script type="text/javascript" src="js/btp/Interface.js"></script>
+  <script type="text/javascript" src="js/production.min.js"></script>
 </body>
 </html>

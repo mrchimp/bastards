@@ -1,0 +1,395 @@
+/**
+ * This is where we make it look good.
+ *
+ * Copyright 2013 Mr Chimp - deviouschimp.co.uk.
+ * Released with a foolish disregard to licenses.
+ */
+
+@red: #900;
+@green: #090;
+@orange: #e70;
+
+@font-face {
+  font-family: 'digital7';
+  src: url('../fonts/digital7/digital-7_mono-webfont.eot');
+  src: url('../fonts/digital7/digital-7_mono-webfont.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/digital7/digital-7_mono-webfont.svg#digital-7_monomono') format('svg'),
+       url('../fonts/digital7/digital-7_mono-webfont.woff') format('woff'),
+       url('../fonts/digital7/digital-7_mono-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'tgl';
+  src: url('../fonts/tgl/tgl_0-17.eot');
+  src: url('../fonts/tgl/tgl_0-17.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/tgl/tgl_0-17.svg#tgl_0-17regular') format('svg'),
+       url('../fonts/tgl/tgl_0-17.woff') format('woff'),
+       url('../fonts/tgl/tgl_0-17.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: transparent;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 0;
+  background-color: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #452500;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: darken(@orange, 30%);
+}
+*::-webkit-scrollbar-thumb:active {
+  background-color: darken(@orange, 15%);
+}
+
+*::selection {
+  color: #000;
+  background-color: darken(@orange, 15%);
+}
+
+body {
+  margin: 0;
+  padding: 10px 5px;
+  font-size: 14px;
+  font-family: 'modesevenregular', monospace;
+  background-color: black;
+  color: @orange;
+}
+h4 {
+  margin: 3px 0 0 0;
+}
+a {
+  color: @green;
+}
+.pauseBtn {
+  -webkit-transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
+     -moz-transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
+      -ms-transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
+       -o-transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
+          transition: text-shadow ease-in 0.3s, color ease-in 0.3s;
+}
+.pauseBtn.paused {
+  border-color: darken(@red, 15%);
+  color: @red;
+  text-shadow: 0 0 10px @red;
+}
+
+
+/* General Bits */
+.bar {
+  position: relative;
+  height: 10px;
+  border: 1px solid darken(@green, 15%);
+  color: @green;
+  overflow: hidden;
+  font-size: 14px;
+  text-align: left;
+}
+.bar p {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+  line-height: 12px;
+  font-size: 14px;
+  font-weight: bold;
+}
+.fill {
+  position: absolute;
+  height: 10px;
+  background: @green;
+  color: black;
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 14px;
+  left: 0;
+  top: 0;
+  font-weight: bold;
+}
+.ship.enemy .bar {
+  color: @red;
+}
+
+#main_title { 
+  color: @orange;
+  font-size: 21px;
+  line-height: 31px;
+  padding: 0;
+  margin: 0 4px;
+  text-shadow: 0 0 13px rgba(255, 128, 0, 0.96);
+  display: inline-block;
+}
+
+section {
+  width: 976px;
+  /*display: inline-block;*/
+}
+
+.controls {
+  float: right;
+  margin: 5px;
+}
+.controls button {
+  display: inline-block;
+  border-radius: 5px;
+  background-color: #000;
+  border: 1px solid darken(@orange, 15%);
+  outline: 0;
+  color: darken(@orange, 15%);
+  padding: 4px;
+  font-family: 'modesevenregular', monospace;
+  height: 24px;
+}
+#space,
+#messages {
+  box-shadow: 0 0 14px rgba(255, 128, 0, 0.32),
+        inset 0 0 14px rgba(255, 128, 0, 0.32);
+  border-radius: 5px;
+  vertical-align: top;
+}
+#space {
+  display: inline-block;
+  border: 1px solid darken(@orange, 30%);
+  width: 320px;
+  height: 250px;
+  padding: 0;
+  margin: 5px;
+}
+#messages {
+  display: inline-block;
+  float: left;
+  width: 620px;
+  height: 240px;
+  border: 1px solid darken(@orange, 30%);
+  padding: 5px;
+  margin: 5px;
+  overflow-y: scroll;
+  font-size: 14px; 
+  line-height: 12px;
+	background: #000;
+  color: @orange;
+  text-shadow: 0px 0px 37px @red,
+               0px 0px 22px @red;
+}
+#messages::selection {
+  color: #000;
+  background-color: darken(@orange, 15%);
+}
+#messages span.friend {
+  color: @green;
+  text-shadow: 0px 0px 37px @green,
+               0px 0px 22px @green;
+}
+#messages span.enemy {
+  color: @red;
+  text-shadow: 0px 0px 37px @red,
+               0px 0px 22px @red;
+}
+#messages span.good {
+  color: @green;
+  text-shadow: 0px 0px 37px @green,
+               0px 0px 22px @green;
+}
+#messages span.bad {
+  color: @red;
+  text-shadow: 0px 0px 37px @red,
+               0px 0px 22px @red;
+}
+
+.ul {
+  text-decoration: underline;
+}
+
+/* Ships tables */
+#friendlyShip,
+#enemyShips {
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+}
+#ships {
+  display: none;
+  clear: both;
+  padding: 0;
+  margin: 0;
+}
+.ship {
+  float: left;
+  display: inline-block;
+  width: 144px;
+  text-align: center;
+  border: 1px solid darken(@green, 20%);
+  padding: 5px;
+  margin: 5px;
+  background-color: #000000;
+  color: @green;
+  box-shadow: 0 0 14px rgba(0, 255, 0, 0.26),
+        inset 0 0 14px rgba(0, 255, 0, 0.12);
+  border-radius: 5px;
+  text-shadow: 0 0 13px rgba(0, 255, 0, 0.52);
+}
+.ship.dead {
+  opacity: 0.4;
+}
+.ship::selection,
+.ship *::selection {
+  color: #000;
+  background-color: @green;
+}
+.ship.enemy {
+  border: 1px solid darken(@red, 20%);
+  background-color: #000000;
+  color: darken(@red, 10%);
+  box-shadow: 0 0 14px rgba(255, 0, 0, 0.25),
+        inset 0 0 14px rgba(255, 0, 0, 0.22);
+  text-shadow: 0 0 13px rgba(255, 0, 0, 0.52);
+}
+.ship.enemy::selection,
+.ship.enemy *::selection {
+  color: #000;
+  background-color: @red;
+}
+  .ship.enemy div.bar {
+    border-color: @red;
+  }
+  .ship.enemy .fill {
+    background-color: @red;
+  }
+.ship dt {
+  float: left;
+  width: 75px;
+}
+.ship td {
+  padding-left: 10px;
+}
+
+table.stats{
+  border-spacing: 0;
+}
+table.stats td {
+  font-size: 14px;
+  line-height: 15px;
+  text-align: left;
+  margin: 0;
+  padding: 0 2px;
+}
+table.stats td.title {
+  text-align: center;
+  color: lighten(@green, 30%);
+}
+.ship.enemy table.stats td.title {
+  color: lighten(@red, 30%);
+}
+table.stats td.name {
+  width: 100px;
+}
+table.stats td.val {
+  width: 26px;
+  text-align: center;
+}
+table.stats td.gauge {
+  width: 40px;
+}
+
+/* message popup */
+#popover {
+  color: @green;
+  position: fixed;
+  padding-top: 25%;
+  text-align: center;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.7);
+  z-index: 100;
+  display: none;
+}
+
+.power-controls {
+  margin-top: 5px;
+  width: 633px;
+  display: inline-block;
+  vertical-align: top;
+}
+.power-controls > div {
+  margin-left: 26px;
+}
+.power-controls > div input {
+  text-shadow: 0 0 13px fade(@orange, 62%);
+  font-size: 33px !important;
+}
+.power-controls .dial-wrapper {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.power-controls .dial-wrapper h2 {
+  text-align: center;
+  margin-top: -15px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-family: 'tgl', sans-serif;
+  text-shadow: 0 0 13px fade(@orange, 82%);
+  color: @orange;
+  letter-spacing: 1px;
+}
+
+.readouts {
+  width: 328px;
+  display: inline-block;
+  vertical-align: top;
+  text-align: right;
+  padding-top: 5px;
+}
+.readouts .readout-wrapper {
+  display: inline-block;
+  vertical-align: top;
+  width: 96px;
+  margin-left: 6px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 14px fade(@orange, 32%),
+        inset 0 0 14px fade(@orange, 32%);
+  border-radius: 5px;
+  border: 1px solid darken(@orange, 30%);
+}
+
+.readouts .readout-wrapper h2 {
+  text-shadow: 0 0 13px fade(darken(@orange, 10%), 62%);
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 16px;
+  display: inline-block;
+  width: 100%;
+  height: 40px;
+}
+.readouts .readout-wrapper .readout {
+  text-align: center;
+  font-family: 'digital7';
+  text-shadow: 0 0 13px fade(@orange, 62%);
+  font-size: 48px;
+}
+.readouts .readout-wrapper.danger {
+  box-shadow: 0 0 14px fade(@red, 42%),
+        inset 0 0 14px fade(@red, 42%);
+  border: 1px solid #d00;
+}
+.readouts .readout-wrapper.danger h2 {
+  text-shadow: 0 0 13px fade(@red, 72%);
+  color: darken(@red, 10%);
+
+}
+.readouts .readout-wrapper.danger .readout {
+  text-shadow: 0 0 13px fade(@red, 72%);
+  color: darken(@red, 10%);
+}
