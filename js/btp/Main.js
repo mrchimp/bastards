@@ -5,7 +5,6 @@
  * Released with a foolish disregard to licenses.
  */
 
-
 String.prototype.repeat = function(num) {
   'use strict';
 
@@ -31,8 +30,8 @@ $(function () {
     type: 'default',
     tmpl: $('#shipTmpl').html(),
     affiliation: 'friend',
-    x: Rand.getInt(30, Bastards.game.space_width-10),
-    y: Rand.getInt(30, Bastards.game.space_height-10),
+    x: Rand.getInt(30, Bastards.game.get('space_width') - 60),
+    y: Rand.getInt(30, Bastards.game.get('space_height') - 10),
     crew: [
       new CrewMember({name:'Jase Barner'}),
       new CrewMember({name:'Harry Raige'}),
@@ -47,22 +46,22 @@ $(function () {
   Bastards.game.addEnemy({
     name: 'Bastards',
     tmpl: $('#shipTmpl').html(),
-    x: Rand.getInt(30, Bastards.game.space_width-10),
-    y: Rand.getInt(30, Bastards.game.space_height-10)
+    x: Rand.getInt(30, Bastards.game.get('space_width') - 10),
+    y: Rand.getInt(30, Bastards.game.get('space_height') - 10)
   });
 
   Bastards.game.addEnemy({
     name: 'Thieves',
     tmpl: $('#shipTmpl').html(),
-    x: Rand.getInt(30, Bastards.game.space_width-10),
-    y: Rand.getInt(30, Bastards.game.space_height-10)
+    x: Rand.getInt(30, Bastards.game.get('space_width') - 10),
+    y: Rand.getInt(30, Bastards.game.get('space_height') - 10)
   });
 
   Bastards.game.addEnemy({
     name: 'Pirates',
     tmpl: $('#shipTmpl').html(),
-    x: Rand.getInt(30, Bastards.game.space_width-10),
-    y: Rand.getInt(30, Bastards.game.space_height-10)
+    x: Rand.getInt(30, Bastards.game.get('space_width') - 10),
+    y: Rand.getInt(30, Bastards.game.get('space_height') - 10)
   });
 
   // Create space -  Let there be light, etc...
@@ -81,8 +80,8 @@ $(function () {
   for (i = 0; i < 500; i++) {
     var randcol = Rand.getColor(0, 180, true),
     star = new Kinetic.Rect({
-      x: Rand.getInt(7, Bastards.game.space_width - 7),
-      y: Rand.getInt(7, Bastards.game.space_height - 7),
+      x: Rand.getInt(7, Bastards.game.get('space_width') - 7),
+      y: Rand.getInt(7, Bastards.game.get('space_height') - 7),
       width: 3,
       height: 3,
       fill: randcol,
@@ -96,8 +95,8 @@ $(function () {
   // show enemy ships on canvas
   for (i = 0; i < Bastards.game.enemies.length; i++) {
     Bastards.game.enemies[i].shape = new Kinetic.Rect({
-      x: Bastards.game.enemies[i].x,
-      y: Bastards.game.enemies[i].y,
+      x: Bastards.game.enemies[i].get('x'),
+      y: Bastards.game.enemies[i].get('y'),
       width: 5,
       height: 5,
       fill: '#f00',
@@ -108,9 +107,9 @@ $(function () {
     layer_ships.add(Bastards.game.enemies[i].shape);
 
     Bastards.game.enemies[i].label = new Kinetic.Text({
-      x: Bastards.game.enemies[i].x + 10,
-      y: Bastards.game.enemies[i].y - 5,
-      text: Bastards.game.enemies[i].name,
+      x: Bastards.game.enemies[i].get('x') + 10,
+      y: Bastards.game.enemies[i].get('y') - 5,
+      text: Bastards.game.enemies[i].get('name'),
       fill: '#c00',
       fontFamily: 'arial',
       shadowColor: '#f00',
@@ -121,11 +120,11 @@ $(function () {
 
     layer_ships.add(Bastards.game.enemies[i].label);
   }
-  
+
   // add the hawk
   Bastards.game.my_ship.shape = new Kinetic.Rect({
-    x: Bastards.game.my_ship.x,
-    y: Bastards.game.my_ship.y,
+    x: Bastards.game.my_ship.get('x'),
+    y: Bastards.game.my_ship.get('y'),
     width: 5,
     height: 5,
     fill: '#00cc00',
@@ -134,9 +133,9 @@ $(function () {
   });
 
   Bastards.game.my_ship.label = new Kinetic.Text({
-    x: Bastards.game.my_ship.x + 10,
-    y: Bastards.game.my_ship.y - 5,
-    text: Bastards.game.my_ship.name,
+    x: Bastards.game.my_ship.get('x') + 10,
+    y: Bastards.game.my_ship.get('y') - 5,
+    text: Bastards.game.my_ship.get('name'),
     fill: '#00cc00',
     fontFamily: 'arial',
     shadowColor: '#00ff00',
@@ -165,7 +164,7 @@ $(function () {
   Bastards.game.stage.add(layer_stars);
   Bastards.game.stage.add(layer_ships);
   Bastards.game.stage.add(layer_message);
-  
+
   /**
    * Add some controls
    */
@@ -205,15 +204,39 @@ $(function () {
     angleArc: 270,
     width: 90,
     height: 90,
-    // displayInput: false,
-    thickness: .3,
+    thickness: 0.3,
     fgColor: '#e70',
     bgColor: '#3d1c00',
-    // skin: 'tron',
-    // lineCap: 'round',
     font: '"digital7"'
+  }).on('');
+
+  _.each([
+    'shield',
+    'engine',
+    'o2gen',
+    'medical',
+    'weapons'
+  ], function (power_type) {
+    $('.dial[name=' + power_type + ']').trigger('configure', {
+      change: function (v) {
+        Bastards.game.my_ship.setPower(power_type, v);
+      }
+    });
   });
-  
+
+
+  $('.dial').on('mousewheel keyup', function () {
+    $(this).trigger('change');
+    Bastards.game.my_ship.setPower($(this).attr('name'), $(this).val());
+  });
+
+  $('.dial-wrapper').on('mousewheel', function () {
+    var dial = $(this).find('input');
+
+    Bastards.game.my_ship.setPower(dial.attr('name'), dial.val());
+  });
+
+
   $(window).resize(function () {
     $('#messages').scrollTop($('#messages')[0].scrollHeight);
   });

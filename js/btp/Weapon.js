@@ -6,36 +6,62 @@
  * Copyright 2013 Mr Chimp - deviouschimp.co.uk.
  * Released with a foolish disregard to licenses.
 **/
+var Weapon = Backbone.Model.extend({
+  defaults: {
+    name: '',
+    hull_damage: 15,
+    crew_damage: 15,
+    section_damage: 30,
+    ammo: 0,
+    ammo_type: 'laser',
+    power_used: 1,
+    missiles_used: 0,
+    rounds_per_shot: 1,
+    blocked_by: {
+      shield: true
+    }
+  },
+  initialize: function () {
+    this.ship = '';
+  },
+  toString: function () {
+    return this.get('name');
+  },
+  fire: function (target) {
+    var response = {
+      success: true,
+      msg: ''
+    };
 
-function Weapon(options) {
-  this.name = '',
-  this.hull_damage = 15,
-  this.crew_damage = 15,
-  this.section_damage = 30,
-  this.ammo = 0,
-  this.ammo_type = 'laser',
-  this.power_used = 1,
-  this.missiles_used = 0,
-  this.rounds_per_shot = 1,
-  this.blocked_by = {
-    shield: true
-  };
-  $.extend(this, options);
-};
+    switch (this.get('ammo_type')) {
+      case 'laser':
+        if (this.ship.get('power') <= 1) {
+          response.msg = 'Not enough power to use laser!';
+          response.success = false;
 
-Weapon.prototype.toString = function () {
-  return this.name;
-};
+          return response;
+        } else {
+          this.ship.set('power', this.ship.get('power') - this.get('power_used'));
+        }
 
-Weapon.prototype.fire = function () {
-  console.log('fire');
-  console.log(this.ammo);
-  console.log(this.rounds_per_shot);
-  if (this.ammo >= this.rounds_per_shot) {
-    this.ammo = this.ammo - this.rounds_per_shot;
-    console.log(this.ammo);
-    return true;
-  } else {
-    return false;
+        break;
+      case 'missile':
+        if (this.get('ammo') < this.get('rounds_per_shot')) {
+          response.msg = 'Not enough ammo!';
+          response.success = false;
+
+          return response;
+        }
+
+        this.set('ammo', this.get('ammo') - this.get('rounds_per_shot'));
+
+        response.success = true;
+
+        break;
+      default:
+        throw 'Invalid ammo type: ' + this.get('ammo_type');
+    }
+
+    return response;
   }
-};
+});

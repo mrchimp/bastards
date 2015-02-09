@@ -83,6 +83,14 @@ a {
   text-shadow: 0 0 10px @red;
 }
 
+.left-col {
+  width: 680px;
+  float:left;
+}
+.right-col {
+  width: 320px;
+  float: left;
+}
 
 /* General Bits */
 .bar {
@@ -168,7 +176,7 @@ section {
 #messages {
   display: inline-block;
   float: left;
-  width: 620px;
+  width: 650px;
   height: 240px;
   border: 1px solid darken(@orange, 30%);
   padding: 5px;
@@ -218,7 +226,6 @@ section {
   display: inline-block;
 }
 #ships {
-  display: none;
   clear: both;
   padding: 0;
   margin: 0;
@@ -332,6 +339,11 @@ table.stats td.gauge {
 .power-controls .dial-wrapper {
   display: inline-block;
   margin-bottom: 10px;
+
+  .dial {
+    text-align: end !important;
+    width: 45px !important;
+  }
 }
 .power-controls .dial-wrapper h2 {
   text-align: center;
@@ -345,10 +357,8 @@ table.stats td.gauge {
 }
 
 .readouts {
-  width: 328px;
   display: inline-block;
   vertical-align: top;
-  text-align: right;
   padding-top: 5px;
 }
 .readouts .readout-wrapper {

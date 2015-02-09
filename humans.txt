@@ -1,0 +1,20 @@
+/* TEAM */
+Developer: Jake Gully AKA Mr Chimp
+Email: jake@deviouschimp.co.uk
+Site: http://deviouschimp.co.uk
+Twitter: @mr_chimp
+Location: Bristol, UK
+
+
+/* THANKS */
+Inspiration: FTL: Faster Than Light
+Website: http://www.ftlgame.com
+
+
+/* SITE */
+Site Name: Bastards, Thieves and Pirates
+Site URL: http://deviouschimp.co.uk/misc/btp
+Standards: HTML5, CSS3
+Components: Backbone, Underscore, KineticJS, jQuery, Node.js, Bower, Grunt, LESS
+Software: Sublime Text, Vim, Xubuntu
+Language: English

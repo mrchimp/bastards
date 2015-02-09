@@ -1,13 +1,17 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" />
+  <title>Bastards, Thieves and Pirates</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Browser based space game.">
   <!--
     So you like pulling apart the pieces?
     Why not get involved at github.com/mrchimp
   -->
-  <title>Bastards, Thieves and Pirates</title>
+  <link rel="author" href="humans.txt">
   <link rel="stylesheet" type="text/css" href="css/modesevenregular/stylesheet.css" />
   <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
@@ -21,61 +25,37 @@
     </div>
   </section>
   
-  <section>
+  <section class="left-col">
     <div id="messages"></div>
-    <div id="space"></div>
-  </section>
 
-  <section>
     <div class="power-controls">
       <div class="dial-wrapper">
-        <input type="text" name="power-shield" class="dial" value="50">
+        <input type="text" name="shield" class="dial" value="50">
         <h2>Shields</h2>
       </div>
       <div class="dial-wrapper">
-        <input type="text" name="power-engine" class="dial" value="50">
+        <input type="text" name="engine" class="dial" value="50">
         <h2>Engine</h2>
       </div>
       <div class="dial-wrapper">
-        <input type="text" name="power-o2gen" class="dial" value="50">
+        <input type="text" name="o2gen" class="dial" value="50">
         <h2>O2 Gen</h2>
       </div>
       <div class="dial-wrapper">
-        <input type="text" name="power-medical" class="dial" value="50">
+        <input type="text" name="medical" class="dial" value="50">
         <h2>Medical</h2>
       </div>
       <div class="dial-wrapper">
-        <input type="text" name="power-weapons" class="dial" value="50">
+        <input type="text" name="weapons" class="dial" value="50">
         <h2>Weapons</h2>
       </div>
     </div>
+    
+    <div class="readouts" id="readouts"></div>
+  </section>
 
-    <div class="readouts">
-      <div class="readout-wrapper">
-        <div class="readout">999</div>
-        <h2>Unused power</h2>
-      </div>
-      <div class="readout-wrapper danger">
-        <div class="readout">999</div>
-        <h2>Hull</h2>
-      </div>
-      <div class="readout-wrapper">
-        <div class="readout">999</div>
-        <h2>Weapons</h2>
-      </div>
-      <div class="readout-wrapper">
-        <div class="readout">999</div>
-        <h2>Missiles</h2>
-      </div>
-      <div class="readout-wrapper">
-        <div class="readout">999</div>
-        <h2>Oxygen</h2>
-      </div>
-      <div class="readout-wrapper">
-        <div class="readout">999</div>
-        <h2>Medical</h2>
-      </div>
-    </div>
+  <section class="right-col">
+    <div id="space"></div>
 
     <div class="controls">
       <button id="fireLaser"><span class="ul">L</span>aser</button>
@@ -85,21 +65,23 @@
   </section>
 
   <section id="ships"></section>
+
   <div id="popover"></div>
-  <script id="shipTmpl" class="template" type="text/tmpl">
-    <div class="ship {{affiliation}} {{display.is_dead}}">
+
+  <script id="shipTmpl" class="template" type="text/template">
+    <div class="ship <%= attributes.affiliation %> <%= display.is_dead %>">
       <table class="stats">
         <tr>
           <td colspan="3" class="title">
-            {{name}}
+            <%= name %>
           </td>
         </tr>
         <tr>
           <td class="name">Hull</td>
           <td class="gauge">
             <div class="bar">
-              <p>{{hull}}</p>
-              <div class="fill" style="width:{{display.hull}}px;" title="Hull Integrity: {{hull}}/{{max_hull}}">{{hull}}</div>
+              <p><%= attributes.hull %></p>
+              <div class="fill" style="width:<%= display.hull %>px;" title="Hull Integrity: <%= attributes.hull %>/<%= attributes.max_hull %>"><%= attributes.hull %></div>
             </div>
           </td>
         </tr>
@@ -107,8 +89,8 @@
           <td class="name">Oxygen</td>
           <td class="gauge">
             <div class="bar">
-              <p>{{oxygen}}</p>
-              <div class="fill" style="width:{{display.oxygen}}px;" title="Oxygen level: {{oxygen}}/100">{{oxygen}}</div>
+              <p><%= attributes.oxygen %></p>
+              <div class="fill" style="width:<%= display.oxygen %>px;" title="Oxygen level: <%= attributes.oxygen %>/100"><%= attributes.oxygen %></div>
             </div>
           </td>
         </tr>
@@ -116,8 +98,8 @@
           <td class="name">Power</td>
           <td class="gauge">
             <div class="bar">
-              <p>{{power}}</p>
-              <div class="fill" style="width:{{display.power}}px;" title="Power level: {{power}}/{{max_power}}">{{power}}</div>
+              <p><%= attributes.power %></p>
+              <div class="fill" style="width:<%= display.power %>px;" title="Power level: <%= attributes.power %>/<%= attributes.max_power %>"><%= attributes.power %></div>
             </div>
           </td>
         </tr>
@@ -125,8 +107,8 @@
           <td class="name">Missiles</td>
           <td class="gauge">
             <div class="bar">
-              <p>{{missiles}}</p>
-              <div class="fill" style="width:{{display.missiles}}px;" title="Power level: {{power}}/{{max_missiles}}">{{missiles}}</div>
+              <p><%= attributes.missiles %></p>
+              <div class="fill" style="width:<%= display.missiles %>px;" title="Power level: <%= attributes.power %>/<%= attributes.max_missiles %>"><%= attributes.missiles %></div>
             </div>
           </td>
         </tr>
@@ -134,8 +116,8 @@
           <td class="name">Fuel</td>
           <td class="gauge">
             <div class="bar">
-              <p>{{fuel}}</p>
-              <div class="fill" style="width:{{display.fuel}}px;" title="Fuel level: {{fuel}}/{{max_fuel}}">{{fuel}}</div>
+              <p><%= attributes.fuel %></p>
+              <div class="fill" style="width:<%= display.fuel %>px;" title="Fuel level: <%= attributes.fuel %>/<%= attributes.max_fuel %>"><%= attributes.fuel %></div>
             </div>
           </td>
         </tr>
@@ -144,7 +126,7 @@
           <td class="gauge">
             <div class="bar">
               <p></p>
-              <div class="fill" style="width:{{display.warp}}px;" title="Warp drive power: /100"></div>
+              <div class="fill" style="width:<%= display.warp %>px;" title="Warp drive power: /100"></div>
             </div>
           </td>
         </tr>
@@ -154,54 +136,84 @@
             Sections
           </td>
         </tr>
-        {{#sections}}
+
+        <% _.each(sections, function (section) { %>
           <tr class="section">
-            <td class="name">{{name}}</td>
+            <td class="name"><%= section.get('name') %></td>
             <td class="gauge">
               <div class="bar">
-                <p>{{hp}}</p>
-                <div class="fill" style="width:{{display.hp}}px">{{hp}}</div>
+                <p><%= section.get('hp') %></p>
+                <div class="fill" style="width:<%= section.getHp() %>px"><%= section.get('hp') %></div>
               </div>
             </td>
           </tr>
-        {{/sections}}
+        <% }); %>
         
         <tr>
           <td colspan="3" class="title">
             Crew
           </td>
         </tr>
-        {{#crew}}
-        <tr class="crew" data-name="{{name}}">
-          <td class="name">{{name}}</td>
-          <td class="gauge">
-            <div class="bar">
-              <p>{{hp}}</p>
-              <div class="fill" style="width:{{display.hp}}px">{{hp}}</div>
-            </div>
-          </td>
-        </tr>
-        {{/crew}}
+
+        <% _.each(crew, function(crew_member) { %>
+          <tr class="crew" data-name="<%= crew_member.get('name') %>">
+            <td class="name"><%= crew_member.get('name') %></td>
+            <td class="gauge">
+              <div class="bar">
+                <p><%= crew_member.get('hp') %></p>
+                <div class="fill" style="width:<%= crew_member.get('hp') %>px"><%= crew_member.get('hp') %></div>
+              </div>
+            </td>
+          </tr>
+        <% }); %>
         
         <tr>
           <td colspan="3" class="title">
             Weapons
           </td>
         </tr>
-        {{#weapons}}
-        <tr class="weapons">
-          <td class="name" colspan="2">{{name}}</td>
-        </tr>
-        <tr>
-          <td class="gauge" colspan="2">
-            a{{ammo}} h{{hull_damage}} c{{crew_damage}} s{{section_damage}}
-          </td>
-        </tr>
-        {{/weapons}}
+
+        <% _.each(weapons, function (weapon) { %>
+          <tr class="weapons">
+            <td class="name" colspan="2"><%= weapon.get('name') %></td>
+          </tr>
+          <tr>
+            <td class="gauge" colspan="2">
+              a<%= weapon.get('ammo') %> h<%= weapon.get('hull_damage') %> c<%= weapon.get('crew_damage') %> s<%= weapon.get('section_damage') %>
+            </td>
+          </tr>
+        <% }); %>
       </table>
     </div>
   </script>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+  <script type="text/template" id="readoutsTmpl">
+    <div class="readout-wrapper">
+      <div class="readout"><%= unused_power %></div>
+      <h2>Unused power</h2>
+    </div>
+    <div class="readout-wrapper <% if (hull < 10) { print('danger') } %>">
+      <div class="readout"><%= hull %></div>
+      <h2>Hull</h2>
+    </div>
+    <div class="readout-wrapper">
+      <div class="readout"><%= weapons %></div>
+      <h2>Weapons</h2>
+    </div>
+    <div class="readout-wrapper <% if (missiles < 5) { print('danger') } %>">
+      <div class="readout"><%= missiles %></div>
+      <h2>Missiles</h2>
+    </div>
+    <div class="readout-wrapper <% if (oxygen < 20) { print('danger') } %>">
+      <div class="readout"><%= oxygen %></div>
+      <h2>Oxygen</h2>
+    </div>
+    <div class="readout-wrapper <% if (medical < 10) { print('danger') } %>">
+      <div class="readout"><%= medical %></div>
+      <h2>Medical</h2>
+    </div>
+  </script>
+
   <script type="text/javascript" src="js/production.min.js"></script>
 </body>
 </html>
