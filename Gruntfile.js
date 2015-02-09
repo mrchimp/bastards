@@ -1,23 +1,31 @@
 module.exports = function(grunt) {
 
+  var js_files = [
+    'bower_components/jquery/dist/jquery.js',
+    'bower_components/jquery-mousewheel/jquery.mousewheel.js',
+    'bower_components/kineticjs/kinetic.js',
+    'bower_components/underscore/underscore.js',
+    'bower_components/backbone/backbone.js',
+    'bower_components/jquery-knob/dist/jquery.knob.min.js',
+    'js/btp/Rand.js',
+    'js/btp/Ship.js',
+    'js/btp/CrewMember.js',
+    'js/btp/ShipSection.js',
+    'js/btp/Game.js',
+    'js/btp/Weapon.js',
+    'js/btp/Main.js'
+  ];
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
       dist: {
-        src: [
-          'js/kinetic-v4.7.4.min.js',
-          'js/mustache.js',
-          'packages/jquery-knob/js/jquery.knob.js',
-          'js/mustache.js',
-          'js/btp/Rand.js',
-          'js/btp/Ship.js',
-          'js/btp/CrewMember.js',
-          'js/btp/ShipSection.js',
-          'js/btp/Game.js',
-          'js/btp/Weapon.js',
-          'js/btp/Interface.js'
-        ],
+        src: js_files,
         dest: 'js/production.js'
+      },
+      dev: {
+        src: js_files,
+        dest: 'js/production.min.js'
       }
     },
     uglify: {
@@ -33,7 +41,29 @@ module.exports = function(grunt) {
           cleancss: true
         },
         files: {
-          'css/style.css': 'css/style.less'
+          'css/style.css': 'less/style.less'
+        }
+      }
+    },
+    jshint: {
+      files: 'js/btp/**/*.js'
+    },
+    focus: {
+      all: {}
+    },
+    watch: {
+      js: {
+        files: js_files,
+        tasks: ['concat:dev', 'jshint'],
+        options: {
+          nospawn: true
+        }
+      },
+      less: {
+        files: ['less/**/*.less'],
+        tasks: ['less'],
+        options: {
+          nospawn: true
         }
       }
     }
@@ -42,7 +72,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-focus');
 
-  grunt.registerTask('default', ['concat', 'uglify', 'less']);
+  grunt.registerTask('default', ['concat:dev', 'less', 'jshint']);
+  grunt.registerTask('dist', ['concat', 'uglify', 'less', 'jshint']);
+  grunt.registerTask('watch-all', ['focus']);
 
 };

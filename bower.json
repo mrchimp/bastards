@@ -1,0 +1,33 @@
+{
+  "name": "bastards",
+  "version": "0.1.0",
+  "homepage": "https://github.com/mrchimp/bastards",
+  "authors": [
+    "mrchimp <chimpytk@gmail.com>"
+  ],
+  "description": "HTML5 space strategy game.",
+  "main": "index.html",
+  "keywords": [
+    "game",
+    "html5",
+    "javascript",
+    "space"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "kineticjs": "5.1.0",
+    "jquery-knob": "~1.2.11",
+    "underscore": "~1.7.0",
+    "jquery": "~2.1.3",
+    "jquery-mousewheel": "~3.1.12"
+  }
+}
