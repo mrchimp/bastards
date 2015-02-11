@@ -11,6 +11,8 @@ var Game = Backbone.Model.extend({
     paused: true,
     bar_width: 40,
     clock: null,
+    space_width: 310,
+    space_height: 250,
   },
   available_weapons: [{
     name: 'Laser',
@@ -47,13 +49,50 @@ var Game = Backbone.Model.extend({
     'Zhu-moa', 'Maephua', 'Math', 'Mellolhu', 'Minaloll',
     'Nath', 'Oken'
   ],
-  init: function () {
-    var t = this;
+  getSpaceSize: function () {
+  	var el = $('#space');
+
+  	return {
+  		x: el.width(),
+  		y: el.height(),
+  	};
+  },
+  initialize: function () {
+    var t = this,
+    		star_size = 3,
+    		star, x, y, randcol;
+
+    // Scaling canvas bug
+		$('#space').attr("height",$('#space').height());
+		$('#space').attr("width",$('#space').width());
 
     this.readouts_tmpl = _.template($('#readoutsTmpl').html());
-
     this.my_ship = '';
     this.enemies = [];
+
+    // Create space -  Let there be light, etc...
+    this.stage = new createjs.Stage('space');
+
+    var star_container = new createjs.Container();
+  
+    // Create some stars
+    for (i = 0; i < 500; i++) {
+      var space_size = this.getSpaceSize();
+      
+      randcol = Rand.getColor(0, 180, true);
+      star = new createjs.Shape();
+
+      x = Rand.getInt(7, space_size.x - 7);
+      y = Rand.getInt(7, space_size.y - 7);
+
+      star.graphics
+	      .beginFill(randcol)
+	      .setStrokeStyle(1)
+	      .beginStroke('#000000')
+	      .drawRect(x, y, star_size, star_size);
+
+      this.stage.addChild(star);
+    }
   },
   setShip: function (options) {
     'use strict';

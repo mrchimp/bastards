@@ -3,7 +3,7 @@ module.exports = function(grunt) {
   var js_files = [
     'bower_components/jquery/dist/jquery.js',
     'bower_components/jquery-mousewheel/jquery.mousewheel.js',
-    'bower_components/kineticjs/kinetic.js',
+    'bower_components/easeljs/lib/easeljs-0.8.0.min.js',
     'bower_components/underscore/underscore.js',
     'bower_components/backbone/backbone.js',
     'bower_components/jquery-knob/dist/jquery.knob.min.js',
@@ -19,13 +19,16 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
+      options: {
+        sourceMap: true
+      },
       dist: {
         src: js_files,
-        dest: 'js/production.js'
+        dest: 'js/production.js',
       },
       dev: {
         src: js_files,
-        dest: 'js/production.min.js'
+        dest: 'js/production.min.js',
       }
     },
     uglify: {

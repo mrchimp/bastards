@@ -68,6 +68,8 @@ var Ship = Backbone.Model.extend({
     is_dead: function () { return (this.is_dead ? 'dead' : ''); }
   },
   initialize: function (options) {
+    var ship_size = 3;
+
     $.extend(this, options);
     $.extend(this, this.shipTypes[options.type]);
 
@@ -87,6 +89,18 @@ var Ship = Backbone.Model.extend({
     }
 
     this.tmpl = _.template($('#shipTmpl').html());
+    this.shape = new createjs.Shape();
+    this.shape.graphics.beginFill((this.get('affiliation') === 'enemy' ? '#ff0000' : '#00cc00'))
+      .drawCircle(this.get('x'), this.get('y'), ship_size)
+      .setStrokeStyle(1)
+      .beginStroke('#000000');
+    Bastards.game.stage.addChild(this.shape);
+
+    this.label = new createjs.Text(this.get('name'), '10px Arial', (this.get('affiliation') === 'enemy' ? '#ff0000' : '#00cc00'));
+    this.label.x = this.get('x') + 10;
+    this.label.y = this.get('y') - 5;
+    Bastards.game.stage.addChild(this.label);
+
   },
   addCrew: function (fng) {
     this.crew.push(fng);
@@ -161,12 +175,12 @@ var Ship = Backbone.Model.extend({
     this.sections[Bastards.game.dice(this.sections.length)].hit(weapon.get('section_damage'));
     
     // Show some graphics
-    var explosion = new Kinetic.Circle({
-      fill: '#f00',
-      radius: 0,
-      x: this.x,
-      y: this.y
-    });
+    // var explosion = new Kinetic.Circle({
+    //   fill: '#f00',
+    //   radius: 0,
+    //   x: this.x,
+    //   y: this.y
+    // });
 
     Bastards.game.refreshScreen();
   },
@@ -185,14 +199,15 @@ var Ship = Backbone.Model.extend({
   warp: function () {
     var move_x = Rand.getInt(-10,10);
     var move_y = Rand.getInt(-10,10);
-    
-    this.x = this.x + move_x;
-    this.y = this.y + move_x;
-    
-    this.shape.move(move_x, move_y);
-    this.label.move(move_x, move_y);
 
-    Bastards.game.stage.draw();
+    this.set('x', this.get('x') + move_x);
+    this.set('y', this.get('y') + move_x);
+    this.shape.x = this.shape.x + move_x;
+    this.shape.y = this.shape.y + move_y;
+    this.label.x = this.label.x + move_x;
+    this.label.y = this.label.y + move_y;
+console.log(this.label);
+    Bastards.game.stage.update();
     Bastards.game.message(this.name + ' warps: ' + move_x + ', ' + move_y);
   },
   tick: function () {

@@ -23,8 +23,6 @@ $(function () {
     space_height: 250
   });
 
-  Bastards.game.init();
-  
   Bastards.game.setShip({
     name: 'The Heavy Hawk',
     type: 'default',
@@ -64,106 +62,106 @@ $(function () {
     y: Rand.getInt(30, Bastards.game.get('space_height') - 10)
   });
 
-  // Create space -  Let there be light, etc...
-  Bastards.game.stage = new Kinetic.Stage({
-    container: 'space',
-    width: 320,
-    height: 250
-  });
   
   // Create some layers
-  var layer_stars = new Kinetic.Layer();
-  var layer_ships = new Kinetic.Layer();
-  var layer_message = new Kinetic.Layer();
+  var layer_ships = new createjs.Container();
+  var layer_message = new createjs.Container();
   
-  // Create some stars
-  for (i = 0; i < 500; i++) {
-    var randcol = Rand.getColor(0, 180, true),
-    star = new Kinetic.Rect({
-      x: Rand.getInt(7, Bastards.game.get('space_width') - 7),
-      y: Rand.getInt(7, Bastards.game.get('space_height') - 7),
-      width: 3,
-      height: 3,
-      fill: randcol,
-      stroke: 'black',
-      strokeWidth: 0
-    });
+    // {
+    //   x: Rand.getInt(7, Bastards.game.get('space_width') - 7),
+    //   y: Rand.getInt(7, Bastards.game.get('space_height') - 7),
+    //   width: 3,
+    //   height: 3,
+    //   fill: randcol,
+    //   stroke: 'black',
+    //   strokeWidth: 0
+    // });
 
-    layer_stars.add(star);
-  }
+    // layer_stars.addChild(star);
+  // }
   
   // show enemy ships on canvas
-  for (i = 0; i < Bastards.game.enemies.length; i++) {
-    Bastards.game.enemies[i].shape = new Kinetic.Rect({
-      x: Bastards.game.enemies[i].get('x'),
-      y: Bastards.game.enemies[i].get('y'),
-      width: 5,
-      height: 5,
-      fill: '#f00',
-      stroke: 'black',
-      strokeWidth: 0
-    });
+  // for (i = 0; i < Bastards.game.enemies.length; i++) {
+    // Bastards.game.enemies[i].shape = new Kinetic.Rect({
+    //   x: Bastards.game.enemies[i].get('x'),
+    //   y: Bastards.game.enemies[i].get('y'),
+    //   width: 5,
+    //   height: 5,
+    //   fill: '#f00',
+    //   stroke: 'black',
+    //   strokeWidth: 0
+    // });
 
-    layer_ships.add(Bastards.game.enemies[i].shape);
+    // layer_ships.add(Bastards.game.enemies[i].shape);
 
-    Bastards.game.enemies[i].label = new Kinetic.Text({
-      x: Bastards.game.enemies[i].get('x') + 10,
-      y: Bastards.game.enemies[i].get('y') - 5,
-      text: Bastards.game.enemies[i].get('name'),
-      fill: '#c00',
-      fontFamily: 'arial',
-      shadowColor: '#f00',
-      shadowBlur: 10,
-      shadowOffset: 0,
-      shadowOpacity: 1
-    });
+    // Bastards.game.enemies[i].label = new Kinetic.Text({
+    //   x: Bastards.game.enemies[i].get('x') + 10,
+    //   y: Bastards.game.enemies[i].get('y') - 5,
+    //   text: Bastards.game.enemies[i].get('name'),
+    //   fill: '#c00',
+    //   fontFamily: 'arial',
+    //   shadowColor: '#f00',
+    //   shadowBlur: 10,
+    //   shadowOffset: 0,
+    //   shadowOpacity: 1
+    // });
 
-    layer_ships.add(Bastards.game.enemies[i].label);
-  }
+    // layer_ships.add(Bastards.game.enemies[i].label);
+  // }
 
   // add the hawk
-  Bastards.game.my_ship.shape = new Kinetic.Rect({
-    x: Bastards.game.my_ship.get('x'),
-    y: Bastards.game.my_ship.get('y'),
-    width: 5,
-    height: 5,
-    fill: '#00cc00',
-    stroke: 'black',
-    strokeWidth: 0
-  });
+  // Bastards.game.my_ship.shape = new createjs.Shape();
+  // Bastards.game.my_ship.shape.graphics
+  //   .beginFill('#00cc00')
+  //   .drawRectangle(Bastards.game.my_ship.get('x'), Bastards.game.my_ship.get('y'), 5, 5);
 
-  Bastards.game.my_ship.label = new Kinetic.Text({
-    x: Bastards.game.my_ship.get('x') + 10,
-    y: Bastards.game.my_ship.get('y') - 5,
-    text: Bastards.game.my_ship.get('name'),
-    fill: '#00cc00',
-    fontFamily: 'arial',
-    shadowColor: '#00ff00',
-    shadowBlur: 10,
-    shadowOffset: 0,
-    shadowOpacity: 1
-  });
+  // ({
+  //   x: Bastards.game.my_ship.get('x'),
+  //   y: Bastards.game.my_ship.get('y'),
+  //   width: 5,
+  //   height: 5,
+  //   fill: '#00cc00',
+  //   stroke: 'black',
+  //   strokeWidth: 0
+  // });
+
+  Bastards.game.my_ship.label = new createjs.Text(Bastards.game.my_ship.get('name'), '10px arial', '#00cc00');
+  Bastards.game.my_ship.label.x = Bastards.game.my_ship.get('x') + 10;
+  Bastards.game.my_ship.label.y = Bastards.game.my_ship.get('y') - 5;
+
+  // Kinetic.Text({
+  //   x: Bastards.game.my_ship.get('x') + 10,
+  //   y: Bastards.game.my_ship.get('y') - 5,
+  //   text: Bastards.game.my_ship.get('name'),
+  //   fill: '#00cc00',
+  //   fontFamily: 'arial',
+  //   shadowColor: '#00ff00',
+  //   shadowBlur: 10,
+  //   shadowOffset: 0,
+  //   shadowOpacity: 1
+  // });
   
   // Set up message output
-  var message = new Kinetic.Text({
-    x: 10,
-    y: 10,
-    text: '------',
-    fontSize: 16,
-    fontFamily: 'Courier New',
-    fontWeight: 'bold',
-    fill: 'green',
-    opacity: 0
-  });
+  // var message = new Kinetic.Text({
+  //   x: 10,
+  //   y: 10,
+  //   text: '------',
+  //   fontSize: 16,
+  //   fontFamily: 'Courier New',
+  //   fontWeight: 'bold',
+  //   fill: 'green',
+  //   opacity: 0
+  // });
 
-  layer_message.add(message);
+  // layer_message.add(message);
   
-  layer_ships.add(Bastards.game.my_ship.shape);
-  layer_ships.add(Bastards.game.my_ship.label);
+  // layer_ships.add(Bastards.game.my_ship.shape);
+  // layer_ships.add(Bastards.game.my_ship.label);
   
-  Bastards.game.stage.add(layer_stars);
-  Bastards.game.stage.add(layer_ships);
-  Bastards.game.stage.add(layer_message);
+  Bastards.game.stage.addChild(layer_ships);
+  Bastards.game.stage.addChild(layer_message);
+
+  Bastards.game.stage.update();
 
   /**
    * Add some controls
