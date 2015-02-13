@@ -25,6 +25,8 @@ var Ship = Backbone.Model.extend({
     y:            0,
     is_dead:      false,
   },
+  label_offset_x: 10,
+  label_offset_y: -5,
   section_list: {},
   shipTypes: {
     'default': {
@@ -68,10 +70,12 @@ var Ship = Backbone.Model.extend({
     is_dead: function () { return (this.is_dead ? 'dead' : ''); }
   },
   initialize: function (options) {
-    var ship_size = 3;
+    var ship_size = 3,
+        ship_blob,
+        ship_label,
+        i;
 
-    $.extend(this, options);
-    $.extend(this, this.shipTypes[options.type]);
+    $.extend(this, this.shipTypes[this.get('type')]);
 
     this.weapons = options.weapons || [];
     this.sections = options.sections || [];
@@ -84,23 +88,31 @@ var Ship = Backbone.Model.extend({
       weapons: 20
     };
 
-    for (var x = 0; x < this.shipTypes[this.get('type')].section_list.length; x++) {
-      this.addSection(this.shipTypes[this.get('type')].section_list[x]);
+    for (i = 0; i < this.shipTypes[this.get('type')].section_list.length; i++) {
+      this.addSection(this.shipTypes[this.get('type')].section_list[i]);
     }
 
     this.tmpl = _.template($('#shipTmpl').html());
-    this.shape = new createjs.Shape();
-    this.shape.graphics.beginFill((this.get('affiliation') === 'enemy' ? '#ff0000' : '#00cc00'))
+
+    ship_blob = new createjs.Shape();
+    ship_blob.graphics.beginFill((this.get('affiliation') === 'enemy' ? '#ff0000' : '#00cc00'))
       .drawCircle(this.get('x'), this.get('y'), ship_size)
       .setStrokeStyle(1)
       .beginStroke('#000000');
-    Bastards.game.stage.addChild(this.shape);
 
-    this.label = new createjs.Text(this.get('name'), '10px Arial', (this.get('affiliation') === 'enemy' ? '#ff0000' : '#00cc00'));
-    this.label.x = this.get('x') + 10;
-    this.label.y = this.get('y') - 5;
-    Bastards.game.stage.addChild(this.label);
+    // because label is a js keyword
+    ship_label = new createjs.Text(this.get('name'), '10px Arial', (this.get('affiliation') === 'enemy' ? '#ff0000' : '#00cc00'));
+    ship_label.x = this.get('x') + this.label_offset_x;
+    ship_label.y = this.get('y') - this.label_offset_y;
 
+    this.ship_shape = new createjs.Container();
+    this.ship_shape.addChild(ship_blob);
+    this.ship_shape.addChild(ship_label);
+
+    Bastards.game.stage.addChild(this.ship_label);
+    Bastards.game.stage.addChild(this.ship_shape);
+
+    Bastards.game.stage.update();
   },
   addCrew: function (fng) {
     this.crew.push(fng);
@@ -197,18 +209,28 @@ var Ship = Backbone.Model.extend({
     return this.get('name');
   },
   warp: function () {
-    var move_x = Rand.getInt(-10,10);
-    var move_y = Rand.getInt(-10,10);
+    var delta_x = Rand.getInt(-10, 10);
+    var delta_y = Rand.getInt(-10, 10);
+    var x = this.get('x') + delta_x;
+    var y = this.get('y') + delta_y;
+    
+    this.warpTo(delta_x, delta_y);
+  },
+  warpTo: function (x, y) {
+    this.set('x', this.get('x') + x);
+    this.set('y', this.get('y') + y);
 
-    this.set('x', this.get('x') + move_x);
-    this.set('y', this.get('y') + move_x);
-    this.shape.x = this.shape.x + move_x;
-    this.shape.y = this.shape.y + move_y;
-    this.label.x = this.label.x + move_x;
-    this.label.y = this.label.y + move_y;
-console.log(this.label);
+    createjs.Tween.get(this.ship_shape, {loop: false})
+      .to({
+        x: x,
+        y: y
+      }, 400, createjs.Ease.getPowInOut(5));
+
+    createjs.Ticker.setFPS(60);
+    createjs.Ticker.addEventListener("tick", Bastards.game.stage);
+
     Bastards.game.stage.update();
-    Bastards.game.message(this.name + ' warps: ' + move_x + ', ' + move_y);
+    Bastards.game.message(this.name + ' warps to: ' + x + ', ' + y);
   },
   tick: function () {
     for (var x = 0; x < this.crew.length; x++) {
